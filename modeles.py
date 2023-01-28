@@ -5,7 +5,10 @@ class Tournament:
 
 
 class Player:
-    pass
+    def __init__(self, surname: str, firstname: str, date_of_birth):
+        self.surname = surname
+        self.firstname = firstname
+        self.date_of_birth = date_of_birth
 
 
 class Match:
