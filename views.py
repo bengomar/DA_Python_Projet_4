@@ -11,6 +11,46 @@ class TournamentView:
 
         return [name, location, date_start, date_end, nb_round]
 
+    def tournament_menu(self):
+        """Menu Tournoi"""
+        print("")
+        print("Sélectionnez une option ")
+        print("")
+        print("   1.  Charger un tournoi ")
+        print("   2.  Créer un tournoi ")
+        print("   3.  Terminer un tournoi ")
+        print("   4.  Retour ")
+
+        print("")
+        option = input("Votre choix ---> ")
+
+        if option == "1":
+            choice = option
+            return choice
+        elif option == "2":
+            choice = option
+            return choice
+        elif option == "3":
+            choice = option
+            return choice
+        else:
+            choice = option
+            return choice
+
+    def get_end_date(self):
+        """ Saisie de la date de fin d'un tournoi"""
+
+        while True:
+            end_date_entred = input("Saisir la date de fin du tournoi (jjmmaaaa): ")
+            try:
+                date_end = datetime.strptime(end_date_entred, "%d%m%Y").strftime(
+                    "%d%m%Y"
+                )
+                break
+            except ValueError:
+                print("Le date est invalide ")
+        return date_end
+
 class PlayerView:
     def get_player_data(self):
         ident = input("Identifiant national du joueur:  ")
@@ -62,16 +102,14 @@ class PlayerView:
         ident = input("Identifiant du joueur à supprimer :  ")
         return ident
 
-    def confirm_deleting_player(self):
-        pass
 class MainView:
     def main_menu(self):
         """Menu principal du programme"""
         print("")
         print("Sélectionnez une option ")
         print("")
-        print("   1.  Joueurs ")
-        print("   2.  Créer un tournoi ")
+        print("   1.  Menu Joueurs ")
+        print("   2.  Menu tournois ")
         print("   3.  Résultats ")
         print("   4.  Rapports ")
         print("   5.  Sortir ")

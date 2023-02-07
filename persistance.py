@@ -27,13 +27,15 @@ class Tinydb:
         self.ident = ident
 
         Tinydb.players.remove(where('ident') == self.ident)
+        print("")
+        print(f"Le joueur immatriculé {self.ident} a été supprimé")
 
     def search_ident_player(self, ident: str):
         """Recherche d'un joueur dans la table players avec son identifiant"""
         self.ident = ident
 
-        get_player_info = Tinydb.players.search(where('ident') == self.ident)
-        return get_player_info
+        search_player_id = Tinydb.players.search(where('ident') == self.ident)
+        print(search_player_id)
     def add_tournament(self, name: str, location: str, date_start: int, date_end: int, nb_round: int):
         """Ajout d'un tournoi à la table players"""
         self.name = name
@@ -57,7 +59,7 @@ class Tinydb:
         print("Tournoi(s) en cours:")
         for tournoi in end_date_get:
             number_t += 1
-            name = tournoi.get('name')
+            tournoi.get('name')
 
             print(f"   {number_t}. Tournoi {tournoi.get('name')}, {tournoi.get('location')} ")
 
@@ -66,5 +68,7 @@ class Tinydb:
         """ saisie manuelle de la fin d'un tournoi"""
         self.date_end = date_end
 
-        Tinydb.tournaments.update({'date_end': self.date_end}, Tinydb.query.date_end == '')
+        print("Sélectionnez le tournoi")
+        Tinydb().get_tournament('')
+        #Tinydb.tournaments.update({'date_end': self.date_end}, Tinydb.query.date_end == '')
 

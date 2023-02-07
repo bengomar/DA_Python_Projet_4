@@ -1,5 +1,5 @@
 from datetime import datetime
-from modeles import Player, Tournament
+from modeles import Player, Tournament, Choice, SearchPlayerIdent
 from views import PlayerView, TournamentView, MainView
 from persistance import Tinydb
 import sys
@@ -13,7 +13,7 @@ class MainControllers:
                                 datetime.strptime(current_tournament.date_start, "%d%m%Y").strftime("%d%m%Y"),
                                 current_tournament.date_end, current_tournament.nb_round)
         Tinydb.check_table_tournaments()
-
+        MainControllers().menu_tournaments()
     def new_player(self):
         ident, surname, firstname, date_of_birth, score = PlayerView().get_player_data()
         current_player = Player(ident, surname, firstname, date_of_birth, score)
@@ -24,20 +24,28 @@ class MainControllers:
 
     def delete_player(self):
         ident = PlayerView().menu_delete_player()
-        print(f"   !!! joueur avec l'Id {ident} a été supprimé !!!")
-        #current_search_player = Tinydb.search_ident_player()
-
+        current_search_player = SearchPlayerIdent(ident)
+        Tinydb().del_player(current_search_player.ident)
+        time.sleep(1)
+        MainControllers().menu_players()
+    def add_score_player(self):
+        print("saisir le score du joueur")
+        MainControllers().menu_players()
 
     def main_menu_choice(self):
         choice = MainView().main_menu()
+        current_choice = Choice(choice)
         if choice == '1':
             MainControllers().menu_players()
         elif choice == '2':
-            MainControllers().new_tournament()
+            MainControllers().menu_tournaments()
         elif choice == '3':
             print(f"{choice=} --> Menu Resultats")
+            MainControllers().main_menu_choice()
         elif choice == '4':
-            print(f"{choice=} --> Menu Rapports")
+            Tinydb.check_table_players()
+            MainControllers().main_menu_choice()
+
         elif choice == '5':
             sys.exit()
         else:
@@ -47,18 +55,37 @@ class MainControllers:
 
     def menu_players(self):
         choice = PlayerView().player_menu()
+        current_choice = Choice(choice)
         if choice == '1':
             MainControllers().new_player()
         elif choice == '2':
             MainControllers().delete_player()
         elif choice == '3':
-            print("Sous-menu 3 Joueur")
+            MainControllers().add_score_player()
         elif choice == '4':
             MainControllers().main_menu_choice()
         else:
             print("Invalid option, please try again")
             time.sleep(1)
             MainControllers().menu_players()
+
+    def menu_tournaments(self):
+        choice = TournamentView().tournament_menu()
+        current_choice = Choice(choice)
+        if choice == '1':
+            Tinydb().get_tournament('')
+            MainControllers().menu_tournaments()
+        elif choice == '2':
+            MainControllers().new_tournament()
+        elif choice == '3':
+            Tinydb().put_tournament_end_date(TournamentView().get_end_date())
+        elif choice == '4':
+            MainControllers().main_menu_choice()
+        else:
+            print("Invalid option, please try again")
+            time.sleep(1)
+            MainControllers().menu_tournaments()
+
     def create_tournament_action(self):
         Tinydb().get_tournament('')
         # créer une instance de tournoi
@@ -73,10 +100,10 @@ class MainControllers:
         # 2- créer des instances de matchs
         # rentrer les résultats du 2ème tour
 
-#MainControllers().main_menu_choice()
+MainControllers().main_menu_choice()
 
+#MainControllers().delete_player()
 
-# MainControllers().delete_player()
 # Ajout de données
 # MainControllers().new_tournament()
 # MainControllers().new_player()
@@ -96,6 +123,4 @@ class MainControllers:
 # Tinydb.tournaments.update({'date_end': '21012023'}, Tinydb.query.location == 'Bamako')
 # Tinydb.check_table_tournaments()
 
-
-#print(current_choice)
-#MainControllers().create_tournament_action()
+# MainControllers().create_tournament_action()
