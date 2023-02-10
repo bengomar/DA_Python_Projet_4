@@ -59,6 +59,7 @@ class PlayerView:
 
         print("")
         option = input("Votre choix ---> ")
+        print("")
 
         if option == "1":
             choice = option
@@ -111,6 +112,7 @@ class PlayerView:
 
     def add_players_to_tournament(self):
         """ ajout de joueur au tournoi"""
+        print("")
         num_player_list = input("Ajouter un joueur au Tournoi :  ")
         return num_player_list
 

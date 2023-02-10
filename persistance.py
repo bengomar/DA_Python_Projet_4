@@ -7,7 +7,7 @@ class Tinydb:
     tournaments = db.table("tournaments")
     query = Query()
 
-    def check_table_players(self):
+    def for_table_players(self):
         """Parcourir la table players"""
         for player in self.players:
             print(player)
