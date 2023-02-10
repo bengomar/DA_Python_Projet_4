@@ -8,14 +8,20 @@ class Tinydb:
     query = Query()
 
     def players_list(self):
-        """Liste les joueurs """
-        print("")
-        print("Liste des joueurs :")
-        print("  Id      Nom,Prénom  ")
+        npa = 0
+        player_list_to_tournament = []
         for player in self.players:
-            print(f"  {player.get('ident')} {player.get('surname')},{player.get('firstname')} ")
+            npa += 1
+            ident = player.get('ident')
+            surname = player.get('surname')
+            firstname = player.get('firstname')
+            player_info = [npa, ident, surname, firstname]
+            player_list_to_tournament.append(player_info)
+        #print(player_list_to_tournament)
+        for player in player_list_to_tournament:
+            print(f"  {player[0]}. {player[1]} {player[2]},{player[3]}")
         print("")
-
+        return player_list_to_tournament
     def check_table_players(self):
         """Parcourir la table players"""
         for player in self.players:
@@ -78,7 +84,7 @@ class Tinydb:
             confirm = PlayerView().confirm_delete_player()
 
             if (confirm == "y") or (confirm == "Y"):
-                delete_player_id = Tinydb.players.remove(where("ident") == self.ident)
+                Tinydb.players.remove(where("ident") == self.ident)
                 print(f"{self.ident}{player.get('surname')}, {player.get('firstname')} a été supprimé")
                 print("")
             elif (confirm == "n") or (confirm == "N"):

@@ -102,3 +102,15 @@ class PlayerView:
         """ confirmation suppression joueur par Y/N ou y/n"""
         confirm = input("---> ")
         return confirm
+    def print_player_list(self):
+        """Liste les joueurs """
+        print("")
+        print("Liste des joueurs :")
+        print("     Id      Nom,Prénom")
+
+
+    def add_players_to_tournament(self):
+        """ ajout de joueur au tournoi"""
+        num_player_list = input("Ajouter un joueur au Tournoi :  ")
+        return num_player_list
+

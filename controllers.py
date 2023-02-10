@@ -44,7 +44,8 @@ class MainControllers:
             current_tournament.date_end,
             current_tournament.nb_round,
         )
-        print(f'Le tournoi "{current_tournament.name}" de {current_tournament.location} comprend {current_tournament.nb_round} rounds')
+        print("")
+        print(f'Le tournoi d\'échec "{current_tournament.name}" qui se déroule à {current_tournament.location} comprend {current_tournament.nb_round} rounds')
 
 
     def menu_players(self):
@@ -86,6 +87,25 @@ class MainControllers:
     def player_to_delete(self):
         Tinydb().players_list()
 
+    def add_player_by_num(self):
+        list_player_tab = Tinydb().players_list()
+        num_player_list = PlayerView().add_players_to_tournament()
+        print(f"joueur selectionné: {num_player_list}")
+        list_of_player_of_tournament = []
+        player_number = len(list_player_tab)
+        print("")
+
+        while player_number > 0:
+            player_number -= 1
+            list_of_player_of_tournament.append(list_player_tab[int(num_player_list) - 1])
+            del list_player_tab[int(num_player_list) - 1]
+            print(list_player_tab)
+        print(list_of_player_of_tournament)
+
+
+
+        #select_player_for_tournament.remove
+
 
     def create_tournament_action(self):
 
@@ -93,7 +113,9 @@ class MainControllers:
         MainControllers().new_tournament()
 
         # Ajouter des joueurs au tournoi
-        Tinydb().players_list()
+        PlayerView().print_player_list()
+        MainControllers().add_player_by_num()
+
 
         # Génération des paires de joueurs
             #Liste de paires de joueurs (aléatoire)
@@ -111,3 +133,13 @@ class MainControllers:
 
 #start programme
 MainControllers().main_menu_choice()
+
+
+
+# Lister la table
+#Tinydb().check_table_tournaments()
+#Tinydb().check_table_players()
+
+# Vider une table
+#Tinydb().tournaments.truncate()
+#Tinydb().players.truncate()
