@@ -5,6 +5,7 @@ class Tinydb:
     db = TinyDB("db.json")
     players = db.table("players")
     tournaments = db.table("tournaments")
+    competitor = db.table("competitor")
     query = Query()
 
     def players_list_ident(self):
@@ -19,11 +20,9 @@ class Tinydb:
         #npa = 0
         player_list_to_tournament = []
         for player in self.players:
-           #npa += 1
             ident = player.get('ident')
             surname = player.get('surname')
             firstname = player.get('firstname')
-            #player_info = [npa, ident, surname, firstname]
             player_info = [ident, surname, firstname]
             player_list_to_tournament.append(player_info)
         #print(player_list_to_tournament)
@@ -33,6 +32,10 @@ class Tinydb:
         """Parcourir la table players"""
         for player in self.players:
             print(player)
+    def check_table_competitor(self):
+        """Parcourir la table players"""
+        for challenger in self.competitor:
+            print(challenger)
 
     def check_table_tournaments(self):
         """Parcourir la table tournaments"""
@@ -102,3 +105,18 @@ class Tinydb:
                 print("Saisie incorrecte (y/n ou Y/N)")
                 Tinydb().del_player(self.ident)
 
+    def add_player_tournament(
+        self, ident: int, surname: int, firstname: int
+    ):
+        """Ajout d'un joueur à la table competitor"""
+        self.ident = ident
+        self.surname = surname
+        self.firstname = firstname
+
+        Tinydb.competitor.insert(
+            {
+                "ident": self.ident,
+                "surname": self.surname,
+                "firstname": self.firstname,
+            }
+        )

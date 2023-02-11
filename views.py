@@ -16,25 +16,8 @@ class MainView:
         print("")
 
         option = input("Votre choix ---> ")
-
-        if option == "1":
-            choice = option
-            return choice
-        elif option == "2":
-            choice = option
-            return choice
-        elif option == "3":
-            choice = option
-            return choice
-        elif option == "4":
-            choice = option
-            return choice
-        elif option == "5":
-            choice = option
-            return choice
-        else:
-            choice = option
-            return choice
+        choice = option
+        return choice
 
 class TournamentView:
     def get_tournament_data(self):
@@ -60,23 +43,8 @@ class PlayerView:
         print("")
         option = input("Votre choix ---> ")
         print("")
-
-        if option == "1":
-            choice = option
-            return choice
-        elif option == "2":
-            choice = option
-            return choice
-        elif option == "3":
-            choice = option
-            return choice
-        elif option == "3":
-            choice = option
-            return choice
-        else:
-            choice = option
-            return choice
-
+        choice = option
+        return choice
     def get_player_data(self):
         """Saisie des données d'un nouveau joueur"""
         ident = input("Identifiant national du joueur:  ")
@@ -106,9 +74,8 @@ class PlayerView:
     def print_player_list(self):
         """Liste les joueurs """
         print("")
-        print("Liste des joueurs :")
+        print("Liste des joueurs inscrits :")
         print("     Id      Nom,Prénom")
-
 
     def add_players_to_tournament(self):
         """ ajout de joueur au tournoi"""
@@ -116,3 +83,21 @@ class PlayerView:
         num_player_list = input("Ajouter un joueur au Tournoi :  ")
         return num_player_list
 
+class ReportsView:
+    def reports_infos_menu(self):
+        """Menu Rapport"""
+        print("Menu Rapports")
+        print("Sélectionnez une option: ")
+        print("")
+        print("   1.  Liste des joueurs par ordre alphabétique")
+        print("   2.  Liste des tournois ")
+        print("   3.  Données d'un tournoi ")
+        print("   4.  Liste des joueurs du dernier tournoi par ordre alphabétique")
+        print("   5.  Liste des tours et matchs des tours du dernier tournoi")
+        print("   6.  Retour")
+
+        print("")
+        option = input("Votre choix ---> ")
+        print("")
+        choice = option
+        return choice
