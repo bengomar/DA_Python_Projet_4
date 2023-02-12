@@ -30,13 +30,9 @@ class TournamentView:
         return [name, location, date_start, date_end, nb_round]
 
     def get_score_match(self):
+        print("")
         score = input("Votre choix ---> ")
-        location = input("Saisir le lieu du tournoi: ").capitalize()
-        date_start = datetime.today().strftime("%d%m%Y")
-        date_end = ""
-        nb_round = 4
-
-        return [name, location, date_start, date_end, nb_round]
+        return score
 
 class PlayerView:
     def player_menu(self):

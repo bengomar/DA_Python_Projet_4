@@ -197,14 +197,17 @@ class MainControllers:
         print("")
         print("Saisie des scores des matchs")
         npa = 0
-        for player in self.matchs_list:
+        for play in self.list_of_player_of_tournament:
             npa += 1
-            print(f"  {npa}. {player[0][0][0]} {player[0][0][1]} {player[0][0][2]} ")
+            print(f"  {npa}.   {play[0]} {play[1]} {play[2]}")
 
-
+        score = TournamentView().get_score_match()
+        print(score)
+        '''
         for play in self.matchs_list:
             print(play[0][1])
             print(play[1][1])
+        '''
 
     def create_tournament_action(self):
 
@@ -224,7 +227,7 @@ class MainControllers:
 
         # rentrer les résultats du 1er tour
             #les scores seront enregistés dans l'instances de tournoi dans un dico {ident:score}
-
+        MainControllers().match_score()
 
         # créer le 2ème tour
         # créer les matchs en fonction des points des joueurs.
@@ -273,10 +276,10 @@ class MainControllers:
             MainControllers().menu_reports()
 
 #start programme
-#MainControllers().main_menu_choice()
+MainControllers().main_menu_choice()
 
-MainControllers().generate_players_pairs()
-MainControllers().match_score()
+#MainControllers().generate_players_pairs()
+#MainControllers().match_score()
 
 # Lister la table
 #Tinydb().check_table_tournaments()
