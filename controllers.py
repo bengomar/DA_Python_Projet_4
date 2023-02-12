@@ -5,6 +5,7 @@ from databases import Tinydb
 from samba.common import raw_input
 import time
 import sys
+import random
 
 class Waiting:
     def wait():
@@ -15,6 +16,8 @@ class Waiting:
         print("")
 class MainControllers:
     list_of_player_of_tournament = []
+    current_tournament = []
+    matchs_list = []
     def main_menu_choice(self):
         """Menu principal"""
         choice = MainView().main_menu()
@@ -57,19 +60,20 @@ class MainControllers:
             date_end,
             nb_round,
         ) = TournamentView().get_tournament_data()
-        current_tournament = Tournament(name, location, date_start, date_end, nb_round)
+        self.current_tournament = Tournament(name, location, date_start, date_end, nb_round)
         Tinydb().add_tournament(
-            current_tournament.name,
-            current_tournament.location,
-            datetime.strptime(current_tournament.date_start, "%d%m%Y").strftime(
+            self.current_tournament.name,
+            self.current_tournament.location,
+            datetime.strptime(self.current_tournament.date_start, "%d%m%Y").strftime(
                 "%d%m%Y"
             ),
-            current_tournament.date_end,
-            current_tournament.nb_round,
+            self.current_tournament.date_end,
+            self.current_tournament.nb_round,
         )
         print("")
-        print(f'Le tournoi d\'échec "{current_tournament.name}" qui se déroule à {current_tournament.location} comprend {current_tournament.nb_round} rounds')
+        print(f'Le tournoi d\'échec "{self.current_tournament.name}" qui se déroule à {self.current_tournament.location} comprend {self.current_tournament.nb_round} rounds')
 
+        return self.current_tournament.name
 
     def menu_players(self):
         """Menu Joueurs"""
@@ -137,15 +141,15 @@ class MainControllers:
     def add_players_tournament(self):
         list_player_tab = Tinydb().players_list()
         nb_player = len(list_player_tab)
-        print(list_player_tab)
-
+        Tinydb().competitor.truncate()
+        #print(list_player_tab)
         while nb_player > 0:
             num_player_list = PlayerView().add_players_to_tournament()
             self.list_of_player_of_tournament.append(list_player_tab[int(num_player_list) - 1])
-            print(f"{self.list_of_player_of_tournament=}")
+            #print(f"{self.list_of_player_of_tournament=}")
             del list_player_tab[int(num_player_list) - 1]
             print("")
-            print("Liste des joueurs participants au tournoi \"NOM DE TOURNOI\":")
+            print(f"Liste des joueurs participants au tournoi (récupérer nom tournoi en cours):")
             for play in self.list_of_player_of_tournament:
                 print(f"  {play[0]} {play[1]} {play[2]}")
             print("")
@@ -166,8 +170,42 @@ class MainControllers:
             nb_player -= 1
 
     def generate_players_pairs(self):
-        #print(self.list_of_player_of_tournament)
-        Tinydb().check_table_competitor()
+        list_p_o = []
+        for player in Tinydb.competitor:
+            #print(player.get('ident'), player.get('surname'), player.get('firstname'))
+            list_p_o.append((player.get('ident'), player.get('surname'), player.get('firstname')))
+        print("")
+        print("   Match du 1er tour:")
+        nb_match = len(list_p_o)//2
+        while nb_match > 0:
+            player = random.choice(list_p_o)
+            opponent = random.choice(list_p_o)
+
+            while player == opponent:
+                player = random.choice(list_p_o)
+                opponent = random.choice(list_p_o)
+            else:
+                match = [[player, 0], [opponent, 0]]
+                list_p_o.remove(player)
+                list_p_o.remove(opponent)
+                player = match[0][0]
+                opponent = match[1][0]
+                print(f"    {player[0]} {player[1]} {player[2]} --vs-- {opponent[0]} {opponent[1]} {opponent[2]}")
+                self.matchs_list.append([[player, 0], [opponent, 0]])
+            nb_match -= 1
+    def match_score(self):
+        print("")
+        print("Saisie des scores des matchs")
+        npa = 0
+        for player in self.matchs_list:
+            npa += 1
+            print(f"  {npa}. {player[0][0][0]} {player[0][0][1]} {player[0][0][2]} ")
+
+
+        for play in self.matchs_list:
+            print(play[0][1])
+            print(play[1][1])
+
     def create_tournament_action(self):
 
         # créer une instance de tournoi
@@ -177,13 +215,13 @@ class MainControllers:
         PlayerView().print_player_list()
         MainControllers().print_players_by_num()
         MainControllers().add_players_tournament()
-        MainControllers().generate_players_pairs()
-
 
         # Génération des paires de joueurs
-            #Liste de paires de joueurs (aléatoire)
+        #Liste de paires de joueurs (aléatoire)
         # créer le 1er tour
         # créer les matchs avec les paires de joueurs générés pour le 1er tour
+        MainControllers().generate_players_pairs()
+
         # rentrer les résultats du 1er tour
             #les scores seront enregistés dans l'instances de tournoi dans un dico {ident:score}
 
@@ -235,16 +273,20 @@ class MainControllers:
             MainControllers().menu_reports()
 
 #start programme
-MainControllers().main_menu_choice()
+#MainControllers().main_menu_choice()
 
-#MainControllers().generate_players_pairs()
+MainControllers().generate_players_pairs()
+MainControllers().match_score()
 
 # Lister la table
 #Tinydb().check_table_tournaments()
+#print("")
 #Tinydb().check_table_players()
+#print("")
 #Tinydb().check_table_competitor()
 
 # Vider une table
 #Tinydb().tournaments.truncate()
 #Tinydb().players.truncate()
 #Tinydb().competitor.truncate()
+

@@ -26,21 +26,21 @@ class Tinydb:
             player_info = [ident, surname, firstname]
             player_list_to_tournament.append(player_info)
         #print(player_list_to_tournament)
-
         return player_list_to_tournament
+
     def check_table_players(self):
         """Parcourir la table players"""
         for player in self.players:
-            print(player)
+            print(f"{player=}")
     def check_table_competitor(self):
         """Parcourir la table players"""
         for challenger in self.competitor:
-            print(challenger)
+            print(f"{challenger=}")
 
     def check_table_tournaments(self):
         """Parcourir la table tournaments"""
         for tournament in self.tournaments:
-            print(tournament)
+            print(f"{tournament=}")
 
     def add_tournament(
         self, name: str, location: str, date_start: int, date_end: int, nb_round: int
