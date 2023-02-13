@@ -70,10 +70,9 @@ class MainControllers:
             self.current_tournament.date_end,
             self.current_tournament.nb_round,
         )
+
         print("")
         print(f'Le tournoi d\'échec "{self.current_tournament.name}" qui se déroule à {self.current_tournament.location} comprend {self.current_tournament.nb_round} rounds')
-
-        return self.current_tournament.name
 
     def menu_players(self):
         """Menu Joueurs"""
@@ -131,7 +130,7 @@ class MainControllers:
         Tinydb().players_list_ident()
 
     def print_players_by_num(self):
-
+        """ Affichage des joueurs disponibles avec numérotation en préfixe"""
         list_player_tab = Tinydb().players_list()
         npa = 0
         for player in list_player_tab:
@@ -139,6 +138,7 @@ class MainControllers:
             print(f"  {npa}. {player[0]} {player[1]} {player[2]}")
 
     def add_players_tournament(self):
+        """ Ajout de joueurs disponibles dans le tournoi en cours"""
         list_player_tab = Tinydb().players_list()
         nb_player = len(list_player_tab)
         Tinydb().competitor.truncate()
@@ -170,17 +170,30 @@ class MainControllers:
             nb_player -= 1
 
     def generate_players_pairs(self):
+        """ Génération de pairs de joueurs (match) depuis la liste des joueurs selectionnés pour le tournoi """
         list_p_o = []
         for player in Tinydb.competitor:
-            #print(player.get('ident'), player.get('surname'), player.get('firstname'))
+            print(player.get('ident'), player.get('surname'), player.get('firstname'))
             list_p_o.append((player.get('ident'), player.get('surname'), player.get('firstname')))
         print("")
-        print("   Match du 1er tour:")
+        print("                **********************")
+        print("                * Match du 1er tour: *")
+        print("                **********************")
         nb_match = len(list_p_o)//2
         while nb_match > 0:
-            player = random.choice(list_p_o)
-            opponent = random.choice(list_p_o)
+            #player = random.choice(list_p_o)
+            #opponent = random.choice(list_p_o)
 
+            player = list_p_o[0]
+            opponent = list_p_o[1]
+            match = [[player, 0], [opponent, 0]]
+            player = match[0][0]
+            opponent = match[1][0]
+            print(f"  {player[0]} {player[1]} {player[2]} --vs-- {opponent[0]} {opponent[1]} {opponent[2]}")
+            list_p_o.remove(player)
+            list_p_o.remove(opponent)
+
+            '''
             while player == opponent:
                 player = random.choice(list_p_o)
                 opponent = random.choice(list_p_o)
@@ -192,22 +205,48 @@ class MainControllers:
                 opponent = match[1][0]
                 print(f"    {player[0]} {player[1]} {player[2]} --vs-- {opponent[0]} {opponent[1]} {opponent[2]}")
                 self.matchs_list.append([[player, 0], [opponent, 0]])
+            '''
             nb_match -= 1
-    def match_score(self):
-        print("")
-        print("Saisie des scores des matchs")
-        npa = 0
-        for play in self.list_of_player_of_tournament:
-            npa += 1
-            print(f"  {npa}.   {play[0]} {play[1]} {play[2]}")
+    def match_score_player(self):
+        dico_score_ident = {}
+        list_player_tab = self.list_of_player_of_tournament
+        nb_player = len(list_player_tab)
+        while nb_player > 0:
+            print("")
+            print("Saisir les scores des matchs aux joueurs (Gagné = 1, Perdu = 0, Nul = 0.5)")
+            npa = 0
+            for play in self.list_of_player_of_tournament:
+                npa += 1
+                player = f"  {npa}. {play[0]} {play[1]} {play[2]}"
+                print(player)
+                #self.list_of_player_of_tournament.remove()
 
-        score = TournamentView().get_score_match()
-        print(score)
-        '''
-        for play in self.matchs_list:
-            print(play[0][1])
-            print(play[1][1])
-        '''
+                #print(f"  {npa}.   {play[0]} {play[1]} {play[2]}")
+
+            choice = TournamentView().get_score_match()
+            player_scored = self.list_of_player_of_tournament[int(choice)-1]
+
+            #print(f"{choice=}")
+            '''
+            for play in self.matchs_list:
+                print(play[0][1])
+                print(play[1][1])
+            '''
+
+            #print(f"{nb_player=}")
+
+
+
+            if choice:
+                ident = list_player_tab[int(choice) - 1][0]
+                print(list_player_tab[int(choice) - 1])
+            score_in = PlayerView().get_score_player()
+            print(score_in)
+            dico_score_ident[ident] = score_in
+
+            print(dico_score_ident)
+            self.list_of_player_of_tournament.remove(player_scored)
+        nb_player -= 1
 
     def create_tournament_action(self):
 
@@ -227,7 +266,7 @@ class MainControllers:
 
         # rentrer les résultats du 1er tour
             #les scores seront enregistés dans l'instances de tournoi dans un dico {ident:score}
-        MainControllers().match_score()
+        MainControllers().match_score_player()
 
         # créer le 2ème tour
         # créer les matchs en fonction des points des joueurs.
@@ -235,7 +274,7 @@ class MainControllers:
         # 2- créer des instances de matchs
         # rentrer les résultats du 2ème tour
 
-    def player_list_orderby_alpha(self):
+    def testing(self):
         pass
 
     def menu_reports(self):
@@ -249,7 +288,7 @@ class MainControllers:
             MainControllers().menu_reports()
         elif choice == "2":
             # Liste des tournois
-            Tinydb().check_table_tournaments()
+            Tinydb().tournaments_list_formated()
             Waiting.wait()
             MainControllers().menu_reports()
         elif choice == "3":
@@ -263,7 +302,7 @@ class MainControllers:
             Waiting.wait()
             MainControllers().menu_reports()
         elif choice == "5":
-            # Liste des tours et matchs des tours du dernier tournoi
+            # Liste des tours et matchs du dernier tournoi
             print("Liste des tours et matchs des tours du dernier tournoi")
             Waiting.wait()
             MainControllers().menu_reports()
@@ -278,9 +317,7 @@ class MainControllers:
 #start programme
 MainControllers().main_menu_choice()
 
-#MainControllers().generate_players_pairs()
-#MainControllers().match_score()
-
+#MainControllers().match_score_player()
 # Lister la table
 #Tinydb().check_table_tournaments()
 #print("")

@@ -31,8 +31,8 @@ class TournamentView:
 
     def get_score_match(self):
         print("")
-        score = input("Votre choix ---> ")
-        return score
+        choice = input("Votre choix ---> ")
+        return choice
 
 class PlayerView:
     def player_menu(self):
@@ -87,6 +87,12 @@ class PlayerView:
         print("")
         num_player_list = input("Ajouter un joueur au Tournoi :  ")
         return num_player_list
+
+    def get_score_player(self):
+        """saisie du score joueur"""
+        print("")
+        score_in = input("Saisir le score du joueur: ")
+        return score_in
 
 class ReportsView:
     def reports_infos_menu(self):

@@ -9,15 +9,19 @@ class Tinydb:
     query = Query()
 
     def players_list_ident(self):
+        """Liste des joueurs par ordre alphabétique"""
+        player_list_alpha = []
         for player in self.players:
             ident = player.get('ident')
             surname = player.get('surname')
             firstname = player.get('firstname')
 
-            print(f"     {ident} {surname},{firstname}")
-
+            player_list_alpha.append([surname, firstname, ident])
+            #print(f"     {ident} {surname},{firstname}")
+        for alpha in sorted(player_list_alpha):
+            print(f"{alpha[2]} {alpha[0]} {alpha[1]}")
     def players_list(self):
-        #npa = 0
+        """Liste des joueurs """
         player_list_to_tournament = []
         for player in self.players:
             ident = player.get('ident')
@@ -45,7 +49,7 @@ class Tinydb:
     def add_tournament(
         self, name: str, location: str, date_start: int, date_end: int, nb_round: int
     ):
-        """Ajout d'un tournoi à la table players"""
+        """Ajout d'un tournoi à la table tournaments"""
         self.name = name
         self.location = location
         self.date_start = date_start
@@ -120,3 +124,10 @@ class Tinydb:
                 "firstname": self.firstname,
             }
         )
+
+    def tournaments_list_formated(self):
+        """Parcourir la table tournaments"""
+        print("Liste des tournois:")
+        print("Nom du tournoi, Lieu, Date de début, Date de fin")
+        for tournoi in self.tournaments:
+            print(f"{tournoi.get('name')}, {tournoi.get('location')}, {tournoi.get('date_start')}, {tournoi.get('date_end')}, {tournoi.get('nb_round')} rounds")
