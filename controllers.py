@@ -16,7 +16,7 @@ class Waiting:
         print("")
 class MainControllers:
     list_of_player_of_tournament = []
-    current_tournament = []
+    running_tournament = []
     players_pair = []
     def main_menu_choice(self):
         """Menu principal"""
@@ -73,7 +73,7 @@ class MainControllers:
 
         print("")
         print(f'Le tournoi d\'échec "{self.current_tournament.name}" qui se déroule à {self.current_tournament.location} comprend {self.current_tournament.nb_round} rounds')
-
+        self.running_tournament.append([self.current_tournament.name, self.current_tournament.location, self.current_tournament.nb_round])
     def menu_players(self):
         """Menu Joueurs"""
         choice = PlayerView().player_menu()
@@ -149,7 +149,7 @@ class MainControllers:
             #print(f"{self.list_of_player_of_tournament=}")
             del list_player_tab[int(num_player_list) - 1]
             print("")
-            print(f"Liste des joueurs participants au tournoi (récupérer nom tournoi en cours):")
+            print(f"Liste des joueurs participants au tournoi \"{self.running_tournament[0][0]}\" :")
             for play in self.list_of_player_of_tournament:
                 print(f"  {play[0]} {play[1]} {play[2]}")
             print("")
@@ -172,11 +172,15 @@ class MainControllers:
     def generate_players_pairs(self):
         """ Génération de pairs de joueurs (match) depuis la liste des joueurs selectionnés pour le tournoi """
         list_p_o = []
+        number_round = self.running_tournament[0][2]
+        nb = (int(number_round) - int(number_round))+1
+
+
         for player in Tinydb.competitor:
             #print("******", player.get('ident'), player.get('surname'), player.get('firstname'))
             list_p_o.append((player.get('ident'), player.get('surname'), player.get('firstname')))
         print("                **********************")
-        print("                * Match du 1er tour: *")
+        print(f"                * Match du {nb} tour: *")
         print("                **********************")
         nb_match = len(list_p_o)//2
         while nb_match > 0:
@@ -222,11 +226,10 @@ class MainControllers:
 
                 print(dico_score_ident)
                 self.list_of_player_of_tournament.remove(player_scored)
-        nb_player -= 1
+            nb_player -= 1
 
     def looping_round(self):
-        print("---------------------->")
-        #, self.current_tournament)
+        print(self.running_tournament)
 
     def create_tournament_action(self):
 
