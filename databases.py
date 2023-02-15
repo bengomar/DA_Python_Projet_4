@@ -1,11 +1,12 @@
 from tinydb import TinyDB, Query, where
-from views import PlayerView
+#from views import PlayerView
+from views import MainView
 
 class Tinydb:
     db = TinyDB("db.json")
     players = db.table("players")
     tournaments = db.table("tournaments")
-    competitor = db.table("competitor")
+    competitors = db.table("competitors")
     query = Query()
 
     def players_list_ident(self):
@@ -36,10 +37,10 @@ class Tinydb:
         """Parcourir la table players"""
         for player in self.players:
             print(f"{player=}")
-    def check_table_competitor(self):
+    def check_table_competitors(self):
         """Parcourir la table players"""
-        for challenger in self.competitor:
-            print(f"{challenger=}")
+        for competitor in self.competitors:
+            print(f"{competitor=}")
 
     def check_table_tournaments(self):
         """Parcourir la table tournaments"""
@@ -97,7 +98,7 @@ class Tinydb:
         else:
             for player in find_player:
                 print(f"Confirmez-vous la suppression de {player.get('surname')} {player.get('firstname')} (Y/N):")
-            confirm = PlayerView().confirm_delete_player()
+            confirm = MainView().confirm_yes_no()
 
             if (confirm == "y") or (confirm == "Y"):
                 Tinydb.players.remove(where("ident") == self.ident)
@@ -112,12 +113,12 @@ class Tinydb:
     def add_player_tournament(
         self, ident: int, surname: int, firstname: int
     ):
-        """Ajout d'un joueur à la table competitor"""
+        """Ajout d'un joueur à la table competitors"""
         self.ident = ident
         self.surname = surname
         self.firstname = firstname
 
-        Tinydb.competitor.insert(
+        Tinydb.competitors.insert(
             {
                 "ident": self.ident,
                 "surname": self.surname,

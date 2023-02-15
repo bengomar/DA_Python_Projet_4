@@ -9,9 +9,10 @@ class MainView:
         print("Sélectionnez une option: ")
         print("")
         print("   1.  Lancer un tournoi ")
-        print("   2.  Menu Joueurs ")
-        print("   3.  Résultats ")
-        print("   4.  Rapports ")
+        print("   2.  Gestion des Joueurs ")
+        print("   3.  Rapports ")
+        print("   4.  Administration ")
+
         print("   5.  Sortir ")
         print("")
 
@@ -19,11 +20,16 @@ class MainView:
         choice = option
         return choice
 
+    def confirm_yes_no(self):
+        """ confirmation par Y/N ou y/n"""
+        confirm = input("---> ")
+        return confirm
+
 class TournamentView:
     def get_tournament_data(self):
         name = input("Saisir le nom du tournoi: ").capitalize()
         location = input("Saisir le lieu du tournoi: ").capitalize()
-        date_start = datetime.today().strftime("%d%m%Y")
+        date_start = datetime.today().strftime("%d%m%Y-%H%M")
         date_end = ""
         nb_round = 4
 
@@ -72,10 +78,6 @@ class PlayerView:
         ident = input("Saisissez Id du joueur à supprimer :  ")
         return ident
 
-    def confirm_delete_player(self):
-        """ confirmation suppression joueur par Y/N ou y/n"""
-        confirm = input("---> ")
-        return confirm
     def print_player_list(self):
         """Liste les joueurs """
         print("")
@@ -112,3 +114,22 @@ class ReportsView:
         print("")
         choice = option
         return choice
+
+    def administation_menu(self):
+        """Menu Administration"""
+        print("Menu Administration")
+        print("Sélectionnez une option: ")
+        print("")
+        print("   1.  Lister la table \"tournaments\"")
+        print("   2.  Lister la table \"players\"")
+        print("   3.  Lister la table \"competitors\"")
+        print("   4.  Vider la table \"tournaments\"")
+        print("   5.  Vider la table \"players\"")
+        print("   6.  Retour")
+
+        print("")
+        option = input("Votre choix ---> ")
+        print("")
+        choice = option
+        return choice
+

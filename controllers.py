@@ -3,7 +3,6 @@ from views import MainView, TournamentView, PlayerView, ReportsView
 from modeles import Tournament, Player, SearchPlayerIdent
 from databases import Tinydb
 from samba.common import raw_input
-import time
 import sys
 import random
 
@@ -23,22 +22,21 @@ class MainControllers:
         choice = MainView().main_menu()
         if choice == "1":
             # Lancer un tournoi
-            MainControllers().create_tournament_action()
+            self.create_tournament_action()
         elif choice == "2":
             # Menu joueurs
             MainControllers().menu_players()
         elif choice == "3":
-            # Résultats
-            print("-----> 4.Menu Résultats ")
-            MainControllers().main_menu_choice()
-        elif choice == "4":
             # Rapports
             MainControllers().menu_reports()
+        elif choice == "4":
+            # Résultats
+            MainControllers().menu_admin()
             '''
             print("Liste des tournois (tournaments)")
             
             print("")
-            print("Liste des joueurs participant au tournoi en cours (competitor)")
+            print("Liste des joueurs participant au tournoi en cours (competitors)")
             
             print("")
             '''
@@ -64,8 +62,8 @@ class MainControllers:
         Tinydb().add_tournament(
             self.current_tournament.name,
             self.current_tournament.location,
-            datetime.strptime(self.current_tournament.date_start, "%d%m%Y").strftime(
-                "%d%m%Y"
+            datetime.strptime(self.current_tournament.date_start, "%d%m%Y-%H%M").strftime(
+                "%d%m%Y-%H%M"
             ),
             self.current_tournament.date_end,
             self.current_tournament.nb_round,
@@ -141,7 +139,7 @@ class MainControllers:
         """ Ajout de joueurs disponibles dans le tournoi en cours"""
         list_player_tab = Tinydb().players_list()
         nb_player = len(list_player_tab)
-        Tinydb().competitor.truncate()
+        Tinydb().competitors.truncate()
         #print(list_player_tab)
         while nb_player > 0:
             num_player_list = PlayerView().add_players_to_tournament()
@@ -172,15 +170,12 @@ class MainControllers:
     def generate_players_pairs(self):
         """ Génération de pairs de joueurs (match) depuis la liste des joueurs selectionnés pour le tournoi """
         list_p_o = []
-        number_round = self.running_tournament[0][2]
-        nb = (int(number_round) - int(number_round))+1
 
-
-        for player in Tinydb.competitor:
+        for player in Tinydb.competitors:
             #print("******", player.get('ident'), player.get('surname'), player.get('firstname'))
             list_p_o.append((player.get('ident'), player.get('surname'), player.get('firstname')))
         print("                **********************")
-        print(f"                * Match du {nb} tour: *")
+        print(f"                * Match du 1er tour: *")
         print("                **********************")
         nb_match = len(list_p_o)//2
         while nb_match > 0:
@@ -228,8 +223,58 @@ class MainControllers:
                 self.list_of_player_of_tournament.remove(player_scored)
             nb_player -= 1
 
-    def looping_round(self):
+    def next_rounds(self):
+        #self.running_tournament.append(['tournoi_1', 'Paris', 4])
+        self.running_tournament
         print(self.running_tournament)
+        nb_rounds = (int(self.running_tournament[0][2]))-1
+
+        print(f"{nb_rounds=}")
+        n = 2
+        while int(nb_rounds) > 0:
+            """ Génération de pairs de joueurs (match) depuis la liste des joueurs selectionnés pour le tournoi """
+            list_p_o = []
+
+            for player in Tinydb.competitors:
+                #print("******", player.get('ident'), player.get('surname'), player.get('firstname'))
+                list_p_o.append((player.get('ident'), player.get('surname'), player.get('firstname')))
+            print(f"{list_p_o=}")
+            print("                **********************")
+            print(f"                * Match du {n}eme tour: *")
+            print("                **********************")
+
+            nb_match = len(list_p_o) // 2
+            while nb_match > 0:
+                #player = list_p_o[0]
+                #opponent = list_p_o[1]
+
+                player = random.choice(list_p_o)
+                opponent = random.choice(list_p_o)
+                while player == opponent:
+                    player = random.choice(list_p_o)
+                    opponent = random.choice(list_p_o)
+
+                matchs = [[player, 0], [opponent, 0]]
+                gamer = matchs[0][0]
+                gamer_versus = matchs[1][0]
+
+                print(f"  {gamer[0]} {gamer[1]} {gamer[2]} --vs-- {gamer_versus[0]} {gamer_versus[1]} {gamer_versus[2]}")
+                self.players_pair.append([gamer[0], gamer_versus[0]])
+                list_p_o.remove(player)
+                list_p_o.remove(opponent)
+
+                nb_match -= 1
+
+            n += 1
+            nb_rounds -= 1
+
+
+
+
+
+
+
+
 
     def create_tournament_action(self):
 
@@ -252,12 +297,70 @@ class MainControllers:
         MainControllers().match_score_player()
 
         # créer le 2ème tour
-        MainControllers().looping_round()
+        MainControllers().next_rounds()
         # créer les matchs en fonction des points des joueurs.
         # 1- Génération des paires --> une liste de listes
         # 2- créer des instances de matchs
         # rentrer les résultats du 2ème tour
 
+    def menu_admin(self):
+        """Menu Administration"""
+        choice = ReportsView().administation_menu()
+
+        if choice == "1":
+            # Lister la table "tournaments"
+            Tinydb().check_table_tournaments()
+            print("")
+            MainControllers().menu_admin()
+        elif choice == "2":
+            # Lister la table "players
+            Tinydb().check_table_players()
+            print("")
+            MainControllers().menu_admin()
+        elif choice == "3":
+            # Lister la table "competitors"
+            Tinydb().check_table_competitors()
+            print("")
+            MainControllers().menu_admin()
+        elif choice == "4":
+            # Vider la table "tournaments"
+            print("Veuillez confirmer (y/n)")
+            confirm = MainView().confirm_yes_no()
+
+            if (confirm == "y") or (confirm == "Y"):
+                Tinydb().tournaments.truncate()
+                print("")
+                print(f"La table \"Tournaments\" a été vidé")
+                print("")
+            elif (confirm == "n") or (confirm == "N"):
+                print("")
+                print(f"Suppression des données annulées")
+            else:
+                print("Saisie incorrecte (y/n ou Y/N)")
+            MainControllers().menu_admin()
+        elif choice == "5":
+            # Lister la table "players"
+            print("Veuillez confirmer (y/n)")
+            confirm = MainView().confirm_yes_no()
+
+            if (confirm == "y") or (confirm == "Y"):
+                Tinydb().players.truncate()
+                print("")
+                print(f"La table \"players\" a été vidé")
+                print("")
+            elif (confirm == "n") or (confirm == "N"):
+                print("")
+                print(f"Suppression des données annulées")
+            else:
+                print("Saisie incorrecte (y/n ou Y/N)")
+            MainControllers().menu_admin()
+        elif choice == "6":
+            # Retour
+            MainControllers().main_menu_choice()
+        else:
+            print("Saisie invalide, veuillez réessayer")
+            Waiting.wait()
+            MainControllers().menu_admin()
 
     def menu_reports(self):
         """Menu Rapports"""
@@ -280,7 +383,7 @@ class MainControllers:
             MainControllers().menu_reports()
         elif choice == "4":
             # Liste des joueurs du dernier tournoi par ordre alphabétique
-            Tinydb().check_table_competitor()
+            Tinydb().check_table_competitors()
             Waiting.wait()
             MainControllers().menu_reports()
         elif choice == "5":
@@ -299,6 +402,7 @@ class MainControllers:
 #start programme
 MainControllers().main_menu_choice()
 
+#MainControllers().next_rounds()
 
 
 # Lister la table
@@ -306,10 +410,10 @@ MainControllers().main_menu_choice()
 #print("")
 #Tinydb().check_table_players()
 #print("")
-#Tinydb().check_table_competitor()
+#Tinydb().check_table_competitors()
 
 # Vider une table
 #Tinydb().tournaments.truncate()
 #Tinydb().players.truncate()
-#Tinydb().competitor.truncate()
+#Tinydb().competitors.truncate()
 
