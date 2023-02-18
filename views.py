@@ -74,7 +74,7 @@ class PlayerView:
         return [ident, surname, firstname, date_of_birth]
 
     def search_player_id_to_delete(self):
-        """Saisie de l'identifiant d'un joueur a supprimer"""
+        """Saisie de l'identifiant d'un joueur à supprimer"""
         ident = input("Saisissez Id du joueur à supprimer :  ")
         return ident
 

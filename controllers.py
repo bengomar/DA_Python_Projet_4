@@ -25,13 +25,13 @@ class MainControllers:
             self.create_tournament_action()
         elif choice == "2":
             # Menu joueurs
-            MainControllers().menu_players()
+            self.menu_players()
         elif choice == "3":
             # Rapports
-            MainControllers().menu_reports()
+            self.menu_reports()
         elif choice == "4":
             # Résultats
-            MainControllers().menu_admin()
+            self.menu_admin()
             '''
             print("Liste des tournois (tournaments)")
             
@@ -40,14 +40,14 @@ class MainControllers:
             
             print("")
             '''
-            #MainControllers().main_menu_choice()
+            #self.main_menu_choice()
         elif choice == "5":
             # Sortir
             sys.exit()
         else:
             print("Saisie invalide, veuillez réessayer")
             Waiting.wait()
-            MainControllers().main_menu_choice()
+            self.main_menu_choice()
 
     def new_tournament(self):
         """Création d'un tournoi"""
@@ -80,22 +80,22 @@ class MainControllers:
             PlayerView().print_player_list()
             Tinydb().players_list_ident()
             Waiting.wait()
-            MainControllers().menu_players()
+            self.menu_players()
         elif choice == "2":
             # Ajouter un joueur
-            MainControllers().new_player()
+            self.new_player()
             Waiting.wait()
-            MainControllers().menu_players()
+            self.menu_players()
         elif choice == "3":
             # Supprimer un joueur
-            MainControllers().delete_player()
+            self.delete_player()
         elif choice == "4":
             # Retour
-            MainControllers().main_menu_choice()
+            self.main_menu_choice()
         else:
             print("Saisie invalide, veuillez réessayer")
             Waiting.wait()
-            MainControllers().menu_players()
+            self.menu_players()
 
     def new_player(self):
         """Ajout d'un joueur dans la table Tinydb.players"""
@@ -111,16 +111,16 @@ class MainControllers:
         print(f"Le joueur {current_player.firstname} {current_player.surname} ({current_player.ident}) a été créé")
         print("")
         #Tinydb().check_table_players()
-        MainControllers().menu_players()
+        self.menu_players()
 
     def delete_player(self):
         """Suppression d'un joueur dans la table Tinydb.players"""
-        MainControllers().player_to_delete()
+        self.player_to_delete()
         ident = PlayerView().search_player_id_to_delete()
         current_search_player = SearchPlayerIdent(ident)
         Tinydb().del_player(current_search_player.ident)
         #Waiting.wait()
-        MainControllers().menu_players()
+        self.menu_players()
 
     def player_to_delete(self):
         """Affichage personnalisé des joueurs depuis la table Tinydb.players"""
@@ -179,11 +179,20 @@ class MainControllers:
         print("                **********************")
         nb_match = len(list_p_o)//2
         while nb_match > 0:
-            player = list_p_o[0]
-            opponent = list_p_o[1]
+
+            #player = list_p_o[0]
+            #opponent = list_p_o[1]
+
+            player = random.choice(list_p_o)
+            opponent = random.choice(list_p_o)
+            while player == opponent:
+                player = random.choice(list_p_o)
+                opponent = random.choice(list_p_o)
+
             matchs = [[player, 0], [opponent, 0]]
             player = matchs[0][0]
             opponent = matchs[1][0]
+
 
             print(f"  {player[0]} {player[1]} {player[2]} --vs-- {opponent[0]} {opponent[1]} {opponent[2]}")
             self.players_pair.append([player[0], opponent[0]])
@@ -200,7 +209,7 @@ class MainControllers:
             if len(self.list_of_player_of_tournament) == 0:
                 pass
             else:
-                MainControllers().generate_players_pairs()
+                self.generate_players_pairs()
                 print("")
                 print("Saisir les scores des matchs aux joueurs (Gagné = 1, Perdu = 0, Nul = 0.5)")
                 npa = 0
@@ -268,36 +277,28 @@ class MainControllers:
             n += 1
             nb_rounds -= 1
 
-
-
-
-
-
-
-
-
     def create_tournament_action(self):
 
         # créer une instance de tournoi
-        MainControllers().new_tournament()
+        self.new_tournament()
 
         # Ajouter des joueurs au tournoi
         PlayerView().print_player_list()
-        MainControllers().print_players_by_num()
-        MainControllers().add_players_tournament()
+        self.print_players_by_num()
+        self.add_players_tournament()
 
         # Génération des paires de joueurs
         #Liste de paires de joueurs (aléatoire)
         # créer le 1er tour
         # créer les matchs avec les paires de joueurs générés pour le 1er tour
-        #MainControllers().generate_players_pairs()
+        #self.generate_players_pairs()
 
         # rentrer les résultats du 1er tour
             #les scores seront enregistés dans l'instances de tournoi dans un dico {ident:score}
-        MainControllers().match_score_player()
+        self.match_score_player()
 
         # créer le 2ème tour
-        MainControllers().next_rounds()
+        self.next_rounds()
         # créer les matchs en fonction des points des joueurs.
         # 1- Génération des paires --> une liste de listes
         # 2- créer des instances de matchs
@@ -311,17 +312,17 @@ class MainControllers:
             # Lister la table "tournaments"
             Tinydb().check_table_tournaments()
             print("")
-            MainControllers().menu_admin()
+            self.menu_admin()
         elif choice == "2":
             # Lister la table "players
             Tinydb().check_table_players()
             print("")
-            MainControllers().menu_admin()
+            self.menu_admin()
         elif choice == "3":
             # Lister la table "competitors"
             Tinydb().check_table_competitors()
             print("")
-            MainControllers().menu_admin()
+            self.menu_admin()
         elif choice == "4":
             # Vider la table "tournaments"
             print("Veuillez confirmer (y/n)")
@@ -337,7 +338,7 @@ class MainControllers:
                 print(f"Suppression des données annulées")
             else:
                 print("Saisie incorrecte (y/n ou Y/N)")
-            MainControllers().menu_admin()
+            self.menu_admin()
         elif choice == "5":
             # Lister la table "players"
             print("Veuillez confirmer (y/n)")
@@ -353,14 +354,14 @@ class MainControllers:
                 print(f"Suppression des données annulées")
             else:
                 print("Saisie incorrecte (y/n ou Y/N)")
-            MainControllers().menu_admin()
+            self.menu_admin()
         elif choice == "6":
             # Retour
-            MainControllers().main_menu_choice()
+            self.main_menu_choice()
         else:
             print("Saisie invalide, veuillez réessayer")
             Waiting.wait()
-            MainControllers().menu_admin()
+            self.menu_admin()
 
     def menu_reports(self):
         """Menu Rapports"""
@@ -370,39 +371,39 @@ class MainControllers:
             # Liste des joueurs par ordre alphabétique
             Tinydb().players_list_ident()
             Waiting.wait()
-            MainControllers().menu_reports()
+            self.menu_reports()
         elif choice == "2":
             # Liste des tournois
             Tinydb().tournaments_list_formated()
             Waiting.wait()
-            MainControllers().menu_reports()
+            self.menu_reports()
         elif choice == "3":
             # Données d'un tournoi
             print("nom et dates d’un tournoi donné")
             Waiting.wait()
-            MainControllers().menu_reports()
+            self.menu_reports()
         elif choice == "4":
             # Liste des joueurs du dernier tournoi par ordre alphabétique
             Tinydb().check_table_competitors()
             Waiting.wait()
-            MainControllers().menu_reports()
+            self.menu_reports()
         elif choice == "5":
             # Liste des tours et matchs du dernier tournoi
             print("Liste des tours et matchs du dernier tournoi")
             Waiting.wait()
-            MainControllers().menu_reports()
+            self.menu_reports()
         elif choice == "6":
             # Retour
-            MainControllers().main_menu_choice()
+            self.main_menu_choice()
         else:
             print("Saisie invalide, veuillez réessayer")
             Waiting.wait()
-            MainControllers().menu_reports()
+            self.menu_reports()
 
 #start programme
 MainControllers().main_menu_choice()
 
-#MainControllers().next_rounds()
+#self.next_rounds()
 
 
 # Lister la table

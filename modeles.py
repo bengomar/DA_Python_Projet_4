@@ -23,11 +23,13 @@ class SearchPlayerIdent:
         self.ident = ident
 
 class Rounds:
-    def __init__(self, round_number,  ):
-    numero round,
-    un round contient une liste de match
-    pour un round donnée
+    def __init__(self, round_id, matchs):
+        self.round_id = round_id
+        self.matchs = matchs
+
 
 class Matchs:
     def __init__(self, player, opponent):
+        self.player = player
+        self.opponent = opponent
         self.players = [[player, 0], [opponent, 0]]
