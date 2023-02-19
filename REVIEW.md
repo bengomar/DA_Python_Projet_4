@@ -5,3 +5,4 @@ General:
 - Use pylint to detect syntax check not covered by black
 - Use Tournament and Match classes
 - Fix #TODO mentioned in the project
+- Create a README
