@@ -13,6 +13,7 @@ class Waiting:
         pause = raw_input("Appuyer sur ENTREE pour continuer ...")
         pause
         print("")
+# TODO: Two blank lines between classes and functions at top level of identation
 class MainControllers:
     list_of_player_of_tournament = []
     running_tournament = []
@@ -233,6 +234,9 @@ class MainControllers:
             nb_player -= 1
 
     def next_rounds(self):
+        # TODO: We sort use randomly only for the first round.
+        #  From the second round we used score of players to sort
+
         #self.running_tournament.append(['tournoi_1', 'Paris', 4])
         self.running_tournament
         print(self.running_tournament)
@@ -263,6 +267,7 @@ class MainControllers:
                     player = random.choice(list_p_o)
                     opponent = random.choice(list_p_o)
 
+                # Where
                 matchs = [[player, 0], [opponent, 0]]
                 gamer = matchs[0][0]
                 gamer_versus = matchs[1][0]

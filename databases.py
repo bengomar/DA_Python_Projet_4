@@ -16,7 +16,7 @@ class Tinydb:
             ident = player.get('ident')
             surname = player.get('surname')
             firstname = player.get('firstname')
-
+            # TODO: Why do you convert a dictionary into a list here?
             player_list_alpha.append([surname, firstname, ident])
             #print(f"     {ident} {surname},{firstname}")
         for alpha in sorted(player_list_alpha):
@@ -28,11 +28,13 @@ class Tinydb:
             ident = player.get('ident')
             surname = player.get('surname')
             firstname = player.get('firstname')
+            # TODO: Why do you convert a dictionary into a list here?
+            #   Looks like a duplicate of the function above. is it needed?
             player_info = [ident, surname, firstname]
             player_list_to_tournament.append(player_info)
         #print(player_list_to_tournament)
         return player_list_to_tournament
-
+    # TODO: One empty space between each function definition, use pylint to get more advanced syntax check
     def check_table_players(self):
         """Parcourir la table players"""
         for player in self.players:
@@ -85,7 +87,10 @@ class Tinydb:
             }
         )
 
+    # TODO: replace del_player par delete_player
     def del_player(self, ident: str):
+        # TODO: For docstrings, you can use this syntax
+        #   https://sphinx-rtd-tutorial.readthedocs.io/en/latest/docstrings.html
         """Supprime un joueur de la table players"""
         self.ident = ident
 
