@@ -1,4 +1,6 @@
 class Tournament:
+
+    rounds = []
     def __init__(
             self,
             name: str,

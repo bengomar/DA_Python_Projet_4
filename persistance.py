@@ -1,4 +1,5 @@
 from tinydb import Query, TinyDB, where
+from modeles import Player
 
 
 class DatabasesTinydb:
@@ -7,47 +8,6 @@ class DatabasesTinydb:
     tournaments = db.table("tournaments")
     query = Query()
 
-    def check_table_players(self):
-        """Parcourir la table players"""
-        for player in self.players:
-            print(player)
-
-    def check_table_tournaments(self):
-        """Parcourir la table tournaments"""
-        for tournament in self.tournaments:
-            print(tournament)
-
-    def check_table_competitors(self):
-        """Parcourir la table competitors"""
-        for competitor in self.competitors:
-            print(competitor)
-
-    def check_table_current_tournament(self):
-        """Parcourir la table current_tournament"""
-        for tournament in self.current_tournament:
-            return tournament
-
-    def get_current_pairs_list(self):
-        """Parcourir la table pairs"""
-        pairs_list = []
-        n = (len(self.pairs)) + 1 - (len(self.pairs))
-        for pair in self.pairs:
-            pairs_list.append(pair.get(f"{n}"))
-            n += 1
-        return pairs_list
-
-    def players_list(self):
-        """Liste des joueurs"""
-        player_list_to_tournament = []
-        for player in self.players:
-            ident = player.get("ident")
-            surname = player.get("surname")
-            firstname = player.get("firstname")
-            date_of_birth = player.get("date_of_birth")
-            player_info = [ident, surname, firstname, date_of_birth]
-            player_list_to_tournament.append(player_info)
-        # print(player_list_to_tournament)
-        return player_list_to_tournament
 
     def sorted_players_list_ident(self):
         """Liste des joueurs par ordre alphabétique"""
@@ -57,30 +17,14 @@ class DatabasesTinydb:
             ident = player.get("ident")
             surname = player.get("surname")
             firstname = player.get("firstname")
+            date_of_birth = player.get("date_of_birth")
 
-            player_list_alpha.append([surname, firstname, ident])
+            player_list_alpha.append([surname, firstname, ident, date_of_birth])
             # print(f"     {ident} {surname},{firstname}")
 
         for alpha in sorted(player_list_alpha):
-            print(f"{alpha[2]} {alpha[0]}, {alpha[1]}")
+            print(f"{alpha[2]} {alpha[0]} {alpha[1]} {alpha[3]}")
 
-    def sorted_player_by_score(self):
-        score_sorted_players = []
-        competitor_list_by_score = []
-        for competitor in self.competitors:
-            ident = competitor.get("ident")
-            surname = competitor.get("surname")
-            firstname = competitor.get("firstname")
-            score = competitor.get("score")
-
-            competitor_list_by_score.append([ident, surname, firstname, float(score)])
-
-        for point in sorted(competitor_list_by_score, key=lambda x: x[3], reverse=True):
-            # print(f"{point[0]} {point[1]} {point[2]} {point[3]}")
-            score_sorted_players.append([point[0], point[1], point[2], point[3]])
-
-        print(f"{score_sorted_players}")
-        return score_sorted_players
 
     def tournaments_list(self):
         """Liste des tournois"""
@@ -102,6 +46,11 @@ class DatabasesTinydb:
             ]
             list_of_tournament.append(tournament_info)
         return list_of_tournament
+
+    def check_table_tournaments(self):
+        """Parcourir la table tournaments"""
+        for tournament in self.tournaments:
+            print(tournament)
 
     def del_player(self, ident: str):
         """Supprime un joueur de la table players"""
@@ -169,7 +118,7 @@ class DatabasesTinydb:
         )
 
     def add_competitors(
-        self, ident: str, surname: str, firstname: str, score: int = 0
+            self, ident: str, surname: str, firstname: str, score: int = 0
     ):
         """Ajout d'un joueur à la table competitors"""
         self.ident = ident
