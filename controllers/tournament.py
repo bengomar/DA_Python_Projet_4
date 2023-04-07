@@ -102,8 +102,8 @@ class TournamentController:
             current_player = players_to_pair.pop()
             opponents = self.opponents_by_player[current_player.ident]
 
-            #print(f"{current_player=}")
-            #print(f"{opponents=}")
+            # print(f"{current_player=}")
+            # print(f"{opponents=}")
 
             for opponent in opponents:
                 if (
@@ -114,20 +114,19 @@ class TournamentController:
 
                     # Create pair
                     pairs.append([current_player, new_opponent])
-                    #print(f"{pairs=}")
+                    # print(f"{pairs=}")
 
                     players_to_pair.remove(opponent)
-                    #print(f"{players_to_pair=}")
+                    # print(f"{players_to_pair=}")
 
-                    #print(f"{current_player.ident=}")
-                    #print(f"{opponent.ident=}")
+                    # print(f"{current_player.ident=}")
+                    # print(f"{opponent.ident=}")
 
                     self.opponents_by_player[current_player.ident].remove(opponent)
                     self.opponents_by_player[opponent.ident].remove(current_player)
                     print(f"     {current_player} -vs- {new_opponent}")
                     break
 
-            #print(f"     {current_player} -vs- {new_opponent}")
             print("")
         return pairs
 
@@ -162,11 +161,19 @@ class TournamentController:
             player_element[1] = player_match_score
             player_obj.score += player_match_score
 
+    def get_round_list(self, matches: list, rounds: int):
+
+        current_round = Round(matches, rounds)
+        self.round_list.append([current_round.name, current_round.matches])
+
+        return self.round_list
+
     def start_tournament(self):
 
         # Display view to get inputs for the new tournament
         tournament_data = self.tournament_view.get_tournament_data()
         current_tournament = Tournament(*tournament_data)
+
         # ----> current_tournament.save()
 
         # Presentation of tournament
@@ -198,7 +205,6 @@ class TournamentController:
 
                 round_date_start = datetime.today().strftime("%d%m%Y-%H%M")
                 pairs = self.generate_pairs_randomly(current_tournament.players)
-                # print(f"{pairs=}")
 
             else:
                 print("                     *********************")
@@ -208,9 +214,7 @@ class TournamentController:
 
                 round_date_start = datetime.today().strftime("%d%m%Y-%H%M")
                 players_sorted_by_score = sorted(current_tournament.players, key=lambda p: p.score, reverse=True)
-                # print(f"{players_sorted_by_score=}")
                 pairs = self.generate_pairs_for_round(players_sorted_by_score)
-                # print("New pairs generated:")
 
             # Create matches from pairs
             matches = self.create_matches(pairs)
@@ -227,6 +231,9 @@ class TournamentController:
                     print(f"   Score de {player[0].firstname} {player[0].surname}: {player[0].score}")
                     resultat.append([f"{player[0].surname} {player[0].firstname}", player[0].score])
 
+            # rounds list
+            current_round_data = self.get_round_list(matches, self.round_number)
+
             print("")
 
             round_date_end = datetime.today().strftime("%d%m%Y-%H%M")
@@ -235,8 +242,12 @@ class TournamentController:
 
         current_tournament.date_end = datetime.today().strftime("%d-%m-%Y")
         current_tournament.description = input("Remarques générales du tournoi: ")
+
+        print(f"{current_round_data}")
+
         print("")
-        print(f" Résumé des scores des joueurs du tournois ", colored(current_tournament.name, 'green', attrs=['bold']))
+        print(f"Résumé des scores des joueurs du tournois",
+              colored('"' + current_tournament.name + '"', 'green', attrs=['bold']))
         print()
         # print(f"{resultat=}")
         sorted_resultat = sorted(resultat, key=lambda x: x[1], reverse=True)
@@ -250,11 +261,10 @@ class TournamentController:
         print(f"date_end: {current_tournament.date_end}")
         print(f"nb_round: {current_tournament.nb_round}")
         print(f"current_round: {self.round_number}")
-        print(f"round_list: {self.round_list}")
+        print(f"round_list: {current_round_data}")
         print(f"players: {current_tournament.players}")
         print(f"description: {current_tournament.description}")
 
-        '''
         DatabasesTinydb.tournaments.insert(
             {
                 "name": current_tournament.name,
@@ -263,12 +273,11 @@ class TournamentController:
                 "date_end": current_tournament.date_end,
                 "nb_round": current_tournament.nb_round,
                 "current_round": self.round_number,
-                "round_list": self.round_list,
+                #["round_list": current_round_data.match for jeu in current_round_data],
                 "players": current_tournament.players,
                 "description": current_tournament.description
             }
         )
-        '''
 
         for tournament in DatabasesTinydb.tournaments:
             print(tournament)

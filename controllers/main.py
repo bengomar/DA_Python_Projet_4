@@ -33,7 +33,7 @@ class MainController:
                 self.tournament_controller.start_tournament()
                 self.usefull.wait()
                 self.usefull.clear()
-                self.run()
+                return
             elif choice == "2":
                 # Menu joueurs
                 self.player_controller.display_menu_players()
@@ -50,5 +50,5 @@ class MainController:
                 #sys.exit()
             else:
                 print("Saisie invalide, veuillez réessayer")
-                Usefull.wait()
+                Usefull.wait(self)
                 self.run()

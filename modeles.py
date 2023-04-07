@@ -1,12 +1,12 @@
 class Tournament:
     def __init__(
-        self,
-        name: str,
-        location: str,
-        date_start: str,
-        date_end: str,
-        nb_round: str,
-        description: str,
+            self,
+            name: str,
+            location: str,
+            date_start: str,
+            date_end: str,
+            nb_round: str,
+            description: str,
     ):
         self.name = name
         self.location = location
@@ -17,7 +17,6 @@ class Tournament:
 
 
 class Player:
-
     score = 0
 
     def __init__(self, idx: int, ident: str, surname: str, firstname: str, date_of_birth: str):
@@ -29,8 +28,10 @@ class Player:
 
     def __str__(self):
         return f"{self.ident} {self.surname} {self.firstname}"
+
     def __repr__(self):
         return f"{self.ident} {self.surname} {self.firstname}"
+
 
 class Match:
     def __init__(self, player: str, opponent: str):
