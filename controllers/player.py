@@ -86,7 +86,7 @@ class PlayerController:
             print(f"{ident} n'existe pas !")
             print("")
         else:
-            print(f"{get_info_player.surname} {get_info_player.firstname} ({ident}) a été supprimé")
+            print(f"{get_info_player} {get_info_player} ({ident}) a été supprimé")
             print("")
 
 
