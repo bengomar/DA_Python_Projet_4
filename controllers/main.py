@@ -33,18 +33,14 @@ class MainController:
                 self.tournament_controller.start_tournament()
                 self.usefull.wait()
                 self.usefull.clear()
-                return
+                self.run()
             elif choice == "2":
                 # Menu joueurs
                 self.player_controller.display_menu_players()
-
             elif choice == "3":
                 # Rapports
                 self.report_controller.menu_reports()
             elif choice == "4":
-                # Résultats
-                self.admin_controller.menu_admin()
-            elif choice == "5":
                 # Sortir
                 in_progress = False
                 #sys.exit()

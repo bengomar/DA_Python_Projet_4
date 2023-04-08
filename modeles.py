@@ -51,5 +51,5 @@ class Round:
         self.rounds = rounds
         self.name = "Round " + str(rounds)
 
-    def __repr__(self):
-        return f"{self.name}"
+    # def __repr__(self):
+    #     return f"{self.name} {self.matches}"

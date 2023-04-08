@@ -11,9 +11,7 @@ class MainView:
         print("   1.  Lancer un tournoi ")
         print("   2.  Gestion des Joueurs ")
         print("   3.  Rapports ")
-        print("   4.  Administration ")
-
-        print("   5.  Sortir ")
+        print("   4.  Sortir ")
         print("")
 
         option = input("Votre choix ---> ")

@@ -20,8 +20,8 @@ class PlayerView:
     def print_player_list(self):
         """Liste les joueurs"""
         print("")
-        print("Liste des joueurs :")
-        print("Id      Nom, Prénom")
+        print("Liste des joueurs enregistrés: ")
+        print("Id      Nom, Prénom, Date de naissance")
 
 
 

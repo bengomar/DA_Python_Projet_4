@@ -176,10 +176,10 @@ class TournamentController:
 
         # Presentation of tournament
         print("")
-        print(f"     Tournoi d'échec:", colored(current_tournament.name, 'green', attrs=['bold']))
-        print(f"     Lieu:", colored(current_tournament.location, 'green', attrs=['bold']))
-        print(f"     Nombre de rounds:", colored(current_tournament.nb_round, 'green', attrs=['bold']))
-        print(f"     Date du tournoi :", colored(current_tournament.date_start, 'green', attrs=['bold']))
+        print(f"     Tournoi d'échec:", colored(current_tournament.name, 'blue', attrs=['bold']))
+        print(f"     Lieu:", colored(current_tournament.location, 'blue', attrs=['bold']))
+        print(f"     Nombre de rounds:", colored(current_tournament.nb_round, 'blue', attrs=['bold']))
+        print(f"     Date du tournoi :", colored(current_tournament.date_start, 'blue', attrs=['bold']))
         print("")
         # Display view to get players playing the tournament
         current_tournament.players = self.tournament_view.select_players_for_tournament(self.players)
@@ -226,12 +226,13 @@ class TournamentController:
                 self.enter_scores_for_match(match)
 
                 for player in match.players:
-                    print(f"   Score de {player[0].firstname} {player[0].surname}: {player[0].score}")
+                    print(f"   Score de {player[0].firstname} {player[0].surname}:",
+                          colored(player[0].score, 'green', attrs=['bold']))
                     resultat.append([f"{player[0].surname} {player[0].firstname}", player[0].score])
 
             # rounds list
-            current_round_data = self.get_round_list(matches, self.round_number)
-            #current_tournament.rounds.append(Round(matches, self.round_number))
+            #current_round_data = self.get_round_list(matches, self.round_number)
+            current_tournament.rounds.append(Round(matches, self.round_number))
 
             round_date_end = datetime.today().strftime("%d%m%Y-%H%M")
             print("")
@@ -255,36 +256,34 @@ class TournamentController:
         # print(f"date_end: {current_tournament.date_end}")
         # print(f"nb_round: {current_tournament.nb_round}")
         # print(f"current_round: {self.round_number}")
-        # print(f"round_list: {current_round_data}")
+        # print(f"round_list: {current_tournament.rounds}")
         # print(f"players: {current_tournament.players}")
         # print(f"description: {current_tournament.description}")
         #
         # print("")
-        # print(current_tournament.rounds)
 
+        # DatabasesTinydb.tournaments.insert(
+        #     {
+        #         current_tournament.name:
+        #             {
+        #                 "location": current_tournament.location,
+        #                 "date_start": current_tournament.date_start,
+        #                 "date_end": current_tournament.date_end,
+        #                 "nb_round": current_tournament.nb_round,
+        #                 "current_round": self.round_number,
+        #                 #[{"round_list": ronde} for ronde in current_tournament.rounds],
+        #                 #[{"players": player} for player in current_tournament.players],
+        #                 "description": current_tournament.description
+        #             }
+        #     }
+        # )
+        #
+        # for tournament in DatabasesTinydb.tournaments:
+        #     print(tournament)
 
-
-        DatabasesTinydb.tournaments.insert(
-            {
-                current_tournament.name:
-                    {
-                        "location": current_tournament.location,
-                        "date_start": current_tournament.date_start,
-                        "date_end": current_tournament.date_end,
-                        "nb_round": current_tournament.nb_round,
-                        "current_round": self.round_number,
-                        # ["round_list": current_round_data.match for jeu in current_round_data],
-                        #[{"players": player} for player in current_tournament.players],
-                        "description": current_tournament.description
-                    }
-            }
-        )
-
-        for tournament in DatabasesTinydb.tournaments:
-            print(tournament)
-
-        print("")
-        print(f"{current_round_data}")
+        # print("")
+        # #print(f"{current_round_data}")
+        print(f"{current_tournament.rounds}")
 
         print("Tournament is done")
         # Display all matches of all rounds in the tournament

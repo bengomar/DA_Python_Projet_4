@@ -1,8 +1,13 @@
 from views.report import ReportsView
 from views.player import PlayerView
 from views.common import Usefull
+from controllers.player import PlayerController
 
 class ReportController:
+
+    def __init__(self):
+        self.player_controller = PlayerController()
+        self.usefull = Usefull()
 
     def menu_reports(self):
         """Menu Rapports"""
@@ -11,6 +16,8 @@ class ReportController:
         if choice == "1":
             # Liste des joueurs par ordre alphabétique
             PlayerView().print_player_list()
+            self.player_controller.players_list_sorted()
+            self.usefull.wait()
             self.menu_reports()
         elif choice == "2":
             # Liste des tournois
