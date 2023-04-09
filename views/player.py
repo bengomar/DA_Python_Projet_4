@@ -1,14 +1,22 @@
 from datetime import datetime
+from views.common import Usefull
+from termcolor import colored
 
 class PlayerView:
+    def __init__(self):
+        self.usefull = Usefull()
     def player_menu(self):
         """Menu Joueurs"""
-        print("Menu joueurs")
+        self.usefull.clear()
+        print("*****************")
+        print("* CENTRE ÉCHECS *")
+        print("*****************")
+        print(colored("Menu joueurs", 'blue', attrs=['bold']))
         print("Sélectionnez une option: ")
         print("")
-        print("   1.  Lister les joueurs ")
-        print("   2.  Ajouter un joueur ")
-        print("   3.  Supprimer un joueur ")
+        print("   1.  Ajouter un joueur ")
+        print("   2.  Supprimer un joueur ")
+        print("   3.  Lister les joueurs ")
         print("   4.  Retour ")
 
         print("")

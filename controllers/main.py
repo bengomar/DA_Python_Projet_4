@@ -31,8 +31,6 @@ class MainController:
             if choice == "1":
                 # Lancer un tournoi
                 self.tournament_controller.start_tournament()
-                self.usefull.wait()
-                self.usefull.clear()
                 return
             elif choice == "2":
                 # Menu joueurs

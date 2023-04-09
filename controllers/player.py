@@ -19,19 +19,27 @@ class PlayerController:
     def display_menu_players(self):
         """Menu Joueurs"""
         choice = self.view.player_menu()
+
         if choice == "1":
-            # Lister les joueurs
-            self.players_list_sorted()
-            self.usefull.wait()
-            self.display_menu_players()
-        elif choice == "2":
             # Ajouter un joueur
             self.create_new_player()
             self.usefull.wait()
             self.display_menu_players()
-        elif choice == "3":
+        elif choice == "2":
             # Supprimer un joueur
+            self.usefull.clear()
+            print("")
+            print("Liste des joueurs enregistrés:")
+            print("")
+            print("Ident   Nom, Prénom, Date de naissance")
+            self.players_list_sorted()
+            print("")
             self.delete_player()
+            self.usefull.wait()
+            self.display_menu_players()
+        elif choice == "3":
+            # Lister les joueurs
+            self.players_list_sorted()
             self.usefull.wait()
             self.display_menu_players()
         elif choice == "4":
@@ -78,15 +86,15 @@ class PlayerController:
 
     def delete_player(self):
         """Supprime un joueur de la table players"""
-        ident = input("Saisir l'identifiant du joueur: ")
+        ident = input("Saisir un identifiant: ")
 
-        get_info_player = Player(self.database.players.search(where("ident") == ident))
+        get_info_player = self.database.players.search(where("ident") == ident)
         delete_player_id = self.database.players.remove(where("ident") == ident)
         if not delete_player_id:
             print(f"{ident} n'existe pas !")
             print("")
         else:
-            print(f"{get_info_player} {get_info_player} ({ident}) a été supprimé")
+            print(f"Le joueur {get_info_player[0]['firstname']} {get_info_player[0]['surname']} ({ident}) a été supprimé")
             print("")
 
 
