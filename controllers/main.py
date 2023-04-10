@@ -3,9 +3,8 @@ from controllers.player import PlayerController
 from controllers.report import ReportController
 from controllers.tournament import TournamentController
 from controllers.admin import AdminController
-from modeles import Player
 from persistance import DatabasesTinydb
-from views.main import MainView, Waiting
+from views.main import MainView
 from views.common import Usefull
 
 

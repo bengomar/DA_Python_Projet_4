@@ -2,9 +2,11 @@ from datetime import datetime
 from views.common import Usefull
 from termcolor import colored
 
+
 class PlayerView:
     def __init__(self):
         self.usefull = Usefull()
+
     def player_menu(self):
         """Menu Joueurs"""
         self.usefull.clear()
@@ -30,9 +32,6 @@ class PlayerView:
         print("")
         print("Liste des joueurs enregistrés: ")
         print("Id      Nom, Prénom, Date de naissance")
-
-
-
 
     def get_player_data(self):
         """Saisie des données d'un nouveau joueur"""
@@ -68,6 +67,3 @@ class PlayerView:
         print("")
         score_in = input(f"Saisir le score du joueur {name} {family_name}: ")
         return score_in
-
-
-

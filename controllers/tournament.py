@@ -29,9 +29,6 @@ class TournamentController:
     round_list = []
     players = []
 
-
-
-
     # players = [
     #     Player(1, "CA12345", "CARLOS", "Roberto", "11112011"),
     #     Player(2, "ME45699", "MESSI", "Lionel", "11112011"),
@@ -55,10 +52,6 @@ class TournamentController:
         date_of_birth = player['date_of_birth']
 
         players.append(Player(idx, ident, surname, firstname, date_of_birth))
-
-
-
-
 
     def create_dico_player_playing(self, competitors):
         """Création du dictionnaire de joueurs/adversaires"""
@@ -167,16 +160,28 @@ class TournamentController:
             score_progress = False
             while score_progress is False:
                 player_match_score = input(f" Saisir le score du joueur {player_obj}: ")
+                # try:
+                #     float(player_match_score)
+                #     player_match_score = float(player_match_score)
+                #     score_progress = True
+                # except ValueError:
+                #     print("")
+                #     print("!!! Entrée non valide, saisir 0, 1 ou 0.5 !!!")
+
                 try:
-                    float(player_match_score)
-                    player_match_score = float(player_match_score)
-                    score_progress = True
-                except ValueError:
-                    print("")
-                    print("!!! Entrée non valide, saisir 0, 1 ou 0.5 !!!")
-                    self.usefull.wait()
-            player_element[1] = player_match_score
-            player_obj.score += player_match_score
+                    if (float(player_match_score) == 0) or (float(player_match_score) == 0.5) or (
+                            float(player_match_score) == 1):
+                        # print(player_match_score)
+                        score_progress = True
+                    else:
+                        print(colored("!!! Entrée non valide, saisir 0 (perdu), 1 (gagné) ou 0.5 (nul) !!!", 'red',
+                                      attrs=['bold']))
+                except:
+                    print(colored("!!! Entrée non valide, saisir 0 (perdu), 1 (gagné) ou 0.5 (nul) !!!", 'red',
+                                  attrs=['bold']))
+
+            player_element[1] = float(player_match_score)
+            player_obj.score += float(player_match_score)
 
     def get_round_list(self, matches: list, rounds: int):
 
@@ -241,7 +246,8 @@ class TournamentController:
             for i, match in enumerate(matches, 1):
                 # Enter result for match
                 print("")
-                print(f"Match {i}")
+                print(colored(f"Match {i}: {match.players[0][0]} -vs- {match.players[1][0]}", 'blue', attrs=['bold']))
+
                 self.enter_scores_for_match(match)
 
                 for player in match.players:
@@ -249,8 +255,9 @@ class TournamentController:
                           colored(player[0].score, 'green', attrs=['bold']))
                     resultat.append([f"{player[0].surname} {player[0].firstname}", player[0].score])
 
+            self.usefull.wait()
             # rounds list
-            #current_round_data = self.get_round_list(matches, self.round_number)
+            # current_round_data = self.get_round_list(matches, self.round_number)
             current_tournament.rounds.append(Round(matches, self.round_number))
 
             round_date_end = datetime.today().strftime("%d%m%Y-%H%M")
@@ -258,8 +265,6 @@ class TournamentController:
 
         current_tournament.date_end = datetime.today().strftime("%d-%m-%Y")
         current_tournament.description = input("Remarques générales du tournoi: ")
-
-
 
         # print(f"Résumé des scores des joueurs du tournois",
         #       colored('"' + current_tournament.name + '"', 'green', attrs=['bold']))
@@ -290,10 +295,10 @@ class TournamentController:
                         "date_end": current_tournament.date_end,
                         "nb_round": current_tournament.nb_round,
                         "current_round": self.round_number,
-                        #"round_list": current_tournament.rounds,
+                        # "round_list": current_tournament.rounds,
                         "players": current_tournament.players,
-                        #[{"round_list": ronde} for ronde in current_tournament.rounds],
-                        #[{"players": player} for player in current_tournament.players],
+                        # [{"round_list": ronde} for ronde in current_tournament.rounds],
+                        # [{"players": player} for player in current_tournament.players],
                         "description": current_tournament.description
                     }
             }

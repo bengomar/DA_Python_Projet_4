@@ -1,9 +1,11 @@
 from views.common import Usefull
 from termcolor import colored
 
+
 class MainView:
     def __init__(self):
         self.usefull = Usefull()
+
     def display_main_menu(self):
         """Menu principal du programme"""
         self.usefull.clear()
@@ -22,11 +24,3 @@ class MainView:
         option = input("Votre choix ---> ")
         choice = option
         return choice
-
-class Waiting:
-    def wait(self):
-        """Permet d'obtenir une pause du programme"""
-        print("")
-        pause = input("Appuyer sur ENTREE pour continuer ...")
-        pause
-        print("")
