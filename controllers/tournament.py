@@ -28,6 +28,7 @@ class TournamentController:
     round_number = ""
     round_list = []
     players = []
+    resultat = []
 
     # players = [
     #     Player(1, "CA12345", "CARLOS", "Roberto", "11112011"),
@@ -190,6 +191,16 @@ class TournamentController:
 
         return self.round_list
 
+    def tournament_score_summary(self, current_tournament, resultat):
+        """ Affiche le résumé des scores des joueurs d'un tournoi """
+        print("")
+        print(f"Résumé des scores des joueurs du tournois",
+              colored('"' + current_tournament.name + '"', 'blue', attrs=['bold']))
+        # print(f"{resultat=}")
+        sorted_resultat = sorted(resultat, key=lambda x: x[1], reverse=True)
+        for score in sorted_resultat:
+            print(colored(f"          {score[0]} = {score[1]}", 'blue', attrs=['bold']))
+
     def start_tournament(self):
 
         # Display view to get inputs for the new tournament
@@ -241,8 +252,8 @@ class TournamentController:
             # Create matches from pairs
             matches = self.create_matches(pairs)
 
-            resultat = []
             # For match in matches:
+            resultat = []
             for i, match in enumerate(matches, 1):
                 # Enter result for match
                 print("")
@@ -266,49 +277,17 @@ class TournamentController:
         current_tournament.date_end = datetime.today().strftime("%d-%m-%Y")
         current_tournament.description = input("Remarques générales du tournoi: ")
 
-        # print(f"Résumé des scores des joueurs du tournois",
-        #       colored('"' + current_tournament.name + '"', 'green', attrs=['bold']))
-        # # print(f"{resultat=}")
-        # sorted_resultat = sorted(resultat, key=lambda x: x[1], reverse=True)
-        # print(f"{sorted_resultat=}")
-        #
-        print("")
+        # printing tournament player score summary after the last round.
+        self.tournament_score_summary(current_tournament, resultat)
 
-        print(f"{current_tournament.name=}")
-        print(f"{current_tournament.location=}")
-        print(f"{current_tournament.date_start=}")
-        print(f"{current_tournament.date_end=}")
-        print(f"{current_tournament.nb_round=}")
-        print(f"{self.round_number=}")
-        print(f"{current_tournament.rounds=}")
-        print(f"{current_tournament.players=}")
-        print(f"{current_tournament.description=}")
+        # put tournament data in database
+        self.persistance.put_current_tournament_in_database(current_tournament, self.round_number)
 
-        print("")
-
-        DatabasesTinydb.tournaments.insert(
-            {
-                current_tournament.name:
-                    {
-                        "location": current_tournament.location,
-                        "date_start": current_tournament.date_start,
-                        "date_end": current_tournament.date_end,
-                        "nb_round": current_tournament.nb_round,
-                        "current_round": self.round_number,
-                        # "round_list": current_tournament.rounds,
-                        "players": current_tournament.players,
-                        # [{"round_list": ronde} for ronde in current_tournament.rounds],
-                        # [{"players": player} for player in current_tournament.players],
-                        "description": current_tournament.description
-                    }
-            }
-        )
-
-        for tournament in DatabasesTinydb.tournaments:
+        for tournament in self.persistance.tournaments:
             print(tournament)
 
         # print("")
-        # #print(f"{current_round_data}")
+        # print(f"{current_round_data}")
         # print(f"{current_tournament.rounds=}")
 
         print("Tournament is done")
