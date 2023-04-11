@@ -1,14 +1,14 @@
 class Tournament:
-
     rounds = []
+
     def __init__(
-            self,
-            name: str,
-            location: str,
-            date_start: str,
-            date_end: str,
-            nb_round: str,
-            description: str,
+        self,
+        name: str,
+        location: str,
+        date_start: str,
+        date_end: str,
+        nb_round: str,
+        description: str,
     ):
         self.name = name
         self.location = location
@@ -21,7 +21,9 @@ class Tournament:
 class Player:
     score = 0
 
-    def __init__(self, idx: int, ident: str, surname: str, firstname: str, date_of_birth: str):
+    def __init__(
+        self, idx: int, ident: str, surname: str, firstname: str, date_of_birth: str
+    ):
         self.idx = idx
         self.ident = ident
         self.surname = surname

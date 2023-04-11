@@ -1,11 +1,9 @@
-import sys
 from controllers.player import PlayerController
 from controllers.report import ReportController
 from controllers.tournament import TournamentController
-from controllers.admin import AdminController
 from persistance import DatabasesTinydb
-from views.main import MainView
 from views.common import Usefull
+from views.main import MainView
 
 
 class MainController:
@@ -17,14 +15,11 @@ class MainController:
         self.tournament_controller = TournamentController()
         self.player_controller = PlayerController()
         self.report_controller = ReportController()
-        self.admin_controller = AdminController()
 
     def run(self):
-
         self.usefull.clear()
         in_progress = True
         while in_progress:
-
             """Menu principal du programme"""
             choice = self.view.display_main_menu()
             if choice == "1":
@@ -40,7 +35,7 @@ class MainController:
             elif choice == "4":
                 # Sortir
                 in_progress = False
-                #sys.exit()
+                # sys.exit()
             else:
                 print("Saisie invalide, veuillez réessayer")
                 Usefull.wait(self)

@@ -1,5 +1,6 @@
-from views.common import Usefull
 from termcolor import colored
+
+from views.common import Usefull
 
 
 class MainView:
@@ -12,7 +13,7 @@ class MainView:
         print("*****************")
         print("* CENTRE ÉCHECS *")
         print("*****************")
-        print(colored("Menu principal", 'blue', attrs=['bold']))
+        print(colored("Menu principal", "blue", attrs=["bold"]))
         print("Sélectionnez une option: ")
         print("")
         print("   1.  Lancer un tournoi ")

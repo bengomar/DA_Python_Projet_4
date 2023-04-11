@@ -1,6 +1,8 @@
 from datetime import datetime
-from views.common import Usefull
+
 from termcolor import colored
+
+from views.common import Usefull
 
 
 class PlayerView:
@@ -13,7 +15,7 @@ class PlayerView:
         print("*****************")
         print("* CENTRE ÉCHECS *")
         print("*****************")
-        print(colored("Menu joueurs", 'blue', attrs=['bold']))
+        print(colored("Menu joueurs", "blue", attrs=["bold"]))
         print("Sélectionnez une option: ")
         print("")
         print("   1.  Ajouter un joueur ")

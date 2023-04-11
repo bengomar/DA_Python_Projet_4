@@ -1,12 +1,12 @@
 from datetime import datetime
 from typing import List
-from views.common import Usefull
+
 from modeles import Player
+from views.common import Usefull
 from views.player import PlayerView
 
 
 class TournamentView:
-
     def __init__(self):
         self.player_view = PlayerView()
         self.usefull = Usefull()
@@ -35,7 +35,6 @@ class TournamentView:
 
         add_player_ended = False
         while add_player_ended is False:
-
             if not selected_players:
                 print("Liste des joueurs disponibles:")
                 print("   Id      Nom, Prénom")
@@ -53,12 +52,16 @@ class TournamentView:
                     choice = int(choice)
                 except ValueError:
                     print("")
-                    print("!!! Choix non valide, sélectionner un des chiffres de la liste !!!")
+                    print(
+                        "!!! Choix non valide, sélectionner un des chiffres de la liste !!!"
+                    )
                     self.usefull.wait()
                     continue
                 if abs(choice) > len(players_not_selected) + 1:
                     print("")
-                    print("!!! Choix non valide, sélectionner un des chiffres de la liste !!!")
+                    print(
+                        "!!! Choix non valide, sélectionner un des chiffres de la liste !!!"
+                    )
                     self.usefull.wait()
                     continue
                 elif choice == len(players_not_selected) + 1:
@@ -72,7 +75,7 @@ class TournamentView:
                     del players_not_selected[:]
                     break
                 else:
-                    selected_players.append(players.pop(choice-1))
+                    selected_players.append(players.pop(choice - 1))
             else:
                 print("")
                 print("Joueurs sélectionés pour le tournoi:")
@@ -97,26 +100,38 @@ class TournamentView:
                         choice = int(choice)
                     except ValueError:
                         print("")
-                        print("!!! Choix non valide, sélectionner un des chiffres de la liste !!!")
+                        print(
+                            "!!! Choix non valide, sélectionner un des chiffres de la liste !!!"
+                        )
                         self.usefull.wait()
                         continue
 
                     if abs(choice) > len(players_not_selected) + 1:
                         print("")
-                        print("!!! Choix non valide, sélectionner un des chiffres de la liste !!!")
+                        print(
+                            "!!! Choix non valide, sélectionner un des chiffres de la liste !!!"
+                        )
                         self.usefull.wait()
                         continue
-                    elif abs(choice) == len(players_not_selected) + 1 and len(selected_players) < 8:
+                    elif (
+                        abs(choice) == len(players_not_selected) + 1
+                        and len(selected_players) < 8
+                    ):
                         print("")
-                        print("!!! Choix non valide, sélectionner un des chiffres de la liste !!!")
+                        print(
+                            "!!! Choix non valide, sélectionner un des chiffres de la liste !!!"
+                        )
                         self.usefull.wait()
                         continue
-                    elif abs(choice) == len(players_not_selected) + 1 and len(selected_players) % 2 == 0 \
-                            and len(selected_players) >= 8:
+                    elif (
+                        abs(choice) == len(players_not_selected) + 1
+                        and len(selected_players) % 2 == 0
+                        and len(selected_players) >= 8
+                    ):
                         break
                     else:
-                        #print(selected_players)
-                        selected_players.append(players.pop(choice-1))
+                        # print(selected_players)
+                        selected_players.append(players.pop(choice - 1))
 
         add_player_ended = True
         self.usefull.wait()

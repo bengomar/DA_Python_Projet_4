@@ -1,18 +1,17 @@
 import random
-from pprint import pprint
+from datetime import datetime
+from typing import List
 
-from modeles import Player, Tournament, Match, Round
+from termcolor import colored
+
+from modeles import Match, Player, Round, Tournament
+from persistance import DatabasesTinydb
+from views.common import Usefull
 from views.player import PlayerView
 from views.tournament import TournamentView
-from persistance import DatabasesTinydb
-from typing import List
-from termcolor import colored
-from datetime import datetime
-from views.common import Usefull
 
 
 class TournamentController:
-
     def __init__(self):
         self.tournament_view = TournamentView()
         self.player_view = PlayerView()
@@ -47,10 +46,10 @@ class TournamentController:
 
     for index, player in enumerate(DatabasesTinydb().players):
         idx = index
-        ident = player['ident']
-        surname = player['surname']
-        firstname = player['firstname']
-        date_of_birth = player['date_of_birth']
+        ident = player["ident"]
+        surname = player["surname"]
+        firstname = player["firstname"]
+        date_of_birth = player["date_of_birth"]
 
         players.append(Player(idx, ident, surname, firstname, date_of_birth))
 
@@ -110,7 +109,6 @@ class TournamentController:
         pairs = []
 
         while players_to_pair:
-
             current_player = players_to_pair.pop()
             opponents = self.opponents_by_player[current_player.ident]
 
@@ -119,8 +117,8 @@ class TournamentController:
 
             for opponent in opponents:
                 if (
-                        opponent in players_to_pair
-                        and opponent in self.opponents_by_player[current_player.ident]
+                    opponent in players_to_pair
+                    and opponent in self.opponents_by_player[current_player.ident]
                 ):
                     new_opponent = opponent
 
@@ -142,7 +140,7 @@ class TournamentController:
         return pairs
 
     def create_matches(self, pairs) -> List[Match]:
-        """Création de la liste des matchs depuis les pairs """
+        """Création de la liste des matchs depuis les pairs"""
 
         matches = []
 
@@ -170,39 +168,52 @@ class TournamentController:
                 #     print("!!! Entrée non valide, saisir 0, 1 ou 0.5 !!!")
 
                 try:
-                    if (float(player_match_score) == 0) or (float(player_match_score) == 0.5) or (
-                            float(player_match_score) == 1):
+                    if (
+                        (float(player_match_score) == 0)
+                        or (float(player_match_score) == 0.5)
+                        or (float(player_match_score) == 1)
+                    ):
                         # print(player_match_score)
                         score_progress = True
                     else:
-                        print(colored("!!! Entrée non valide, saisir 0 (perdu), 1 (gagné) ou 0.5 (nul) !!!", 'red',
-                                      attrs=['bold']))
+                        print(
+                            colored(
+                                "!!! Entrée non valide, saisir 0 (perdu), 1 (gagné) ou 0.5 (nul) !!!",
+                                "red",
+                                attrs=["bold"],
+                            )
+                        )
                 except:
-                    print(colored("!!! Entrée non valide, saisir 0 (perdu), 1 (gagné) ou 0.5 (nul) !!!", 'red',
-                                  attrs=['bold']))
+                    print(
+                        colored(
+                            "!!! Entrée non valide, saisir 0 (perdu), 1 (gagné) ou 0.5 (nul) !!!",
+                            "red",
+                            attrs=["bold"],
+                        )
+                    )
 
             player_element[1] = float(player_match_score)
             player_obj.score += float(player_match_score)
 
     def get_round_list(self, matches: list, rounds: int):
-
         current_round = Round(matches, rounds)
         self.round_list.append([current_round.name, current_round.matches])
 
         return self.round_list
 
     def tournament_score_summary(self, current_tournament, resultat):
-        """ Affiche le résumé des scores des joueurs d'un tournoi """
+        """Affiche le résumé des scores des joueurs d'un tournoi"""
         print("")
-        print(f"Résumé des scores des joueurs du tournois",
-              colored('"' + current_tournament.name + '"', 'blue', attrs=['bold']))
+        print(
+            f"Résumé des scores des joueurs du tournois",
+            colored('"' + current_tournament.name + '"', "blue", attrs=["bold"]),
+        )
         # print(f"{resultat=}")
         sorted_resultat = sorted(resultat, key=lambda x: x[1], reverse=True)
         for score in sorted_resultat:
-            print(colored(f"          {score[0]} = {score[1]}", 'blue', attrs=['bold']))
+            print(colored(f"          {score[0]} = {score[1]}", "blue", attrs=["bold"]))
 
     def start_tournament(self):
-
         # Display view to get inputs for the new tournament
         tournament_data = self.tournament_view.get_tournament_data()
         current_tournament = Tournament(*tournament_data)
@@ -211,25 +222,39 @@ class TournamentController:
 
         # Presentation of tournament
         print("")
-        print(f"     Tournoi d'échec:", colored(current_tournament.name, 'blue', attrs=['bold']))
-        print(f"     Lieu:", colored(current_tournament.location, 'blue', attrs=['bold']))
-        print(f"     Nombre de rounds:", colored(current_tournament.nb_round, 'blue', attrs=['bold']))
-        print(f"     Date du tournoi :", colored(current_tournament.date_start, 'blue', attrs=['bold']))
+        print(
+            f"     Tournoi d'échec:",
+            colored(current_tournament.name, "blue", attrs=["bold"]),
+        )
+        print(
+            f"     Lieu:", colored(current_tournament.location, "blue", attrs=["bold"])
+        )
+        print(
+            f"     Nombre de rounds:",
+            colored(current_tournament.nb_round, "blue", attrs=["bold"]),
+        )
+        print(
+            f"     Date du tournoi :",
+            colored(current_tournament.date_start, "blue", attrs=["bold"]),
+        )
         print("")
         # Display view to get players playing the tournament
-        current_tournament.players = self.tournament_view.select_players_for_tournament(self.players)
+        current_tournament.players = self.tournament_view.select_players_for_tournament(
+            self.players
+        )
         # ---> current_tournament.players.save()
 
         # print(f"{current_tournament.players}")
 
         # Create dictionary to store who played with who
-        self.opponents_by_player = self.create_dico_player_playing(current_tournament.players)
+        self.opponents_by_player = self.create_dico_player_playing(
+            current_tournament.players
+        )
         # print(f"{self.opponents_by_player = }")
 
         # For round in rounds:
 
         for self.round_number in range(1, current_tournament.nb_round + 1):
-
             if self.round_number == 1:
                 print("                     *********************")
                 print(f"                     * Matchs du Round {self.round_number} *")
@@ -246,7 +271,9 @@ class TournamentController:
                 print("")
 
                 round_date_start = datetime.today().strftime("%d%m%Y-%H%M")
-                players_sorted_by_score = sorted(current_tournament.players, key=lambda p: p.score, reverse=True)
+                players_sorted_by_score = sorted(
+                    current_tournament.players, key=lambda p: p.score, reverse=True
+                )
                 pairs = self.generate_pairs_for_round(players_sorted_by_score)
 
             # Create matches from pairs
@@ -257,14 +284,24 @@ class TournamentController:
             for i, match in enumerate(matches, 1):
                 # Enter result for match
                 print("")
-                print(colored(f"Match {i}: {match.players[0][0]} -vs- {match.players[1][0]}", 'blue', attrs=['bold']))
+                print(
+                    colored(
+                        f"Match {i}: {match.players[0][0]} -vs- {match.players[1][0]}",
+                        "blue",
+                        attrs=["bold"],
+                    )
+                )
 
                 self.enter_scores_for_match(match)
 
                 for player in match.players:
-                    print(f"   Score de {player[0].firstname} {player[0].surname}:",
-                          colored(player[0].score, 'green', attrs=['bold']))
-                    resultat.append([f"{player[0].surname} {player[0].firstname}", player[0].score])
+                    print(
+                        f"   Score de {player[0].firstname} {player[0].surname}:",
+                        colored(player[0].score, "green", attrs=["bold"]),
+                    )
+                    resultat.append(
+                        [f"{player[0].surname} {player[0].firstname}", player[0].score]
+                    )
 
             self.usefull.wait()
             # rounds list
@@ -281,7 +318,9 @@ class TournamentController:
         self.tournament_score_summary(current_tournament, resultat)
 
         # put tournament data in database
-        self.persistance.put_current_tournament_in_database(current_tournament, self.round_number)
+        self.persistance.put_current_tournament_in_database(
+            current_tournament, self.round_number
+        )
 
         for tournament in self.persistance.tournaments:
             print(tournament)

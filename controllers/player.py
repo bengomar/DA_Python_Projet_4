@@ -1,14 +1,14 @@
-from views.player import PlayerView
-from persistance import DatabasesTinydb
 from tinydb import where
-from modeles import Player
-from controllers.tournament import TournamentController
-from views.common import Usefull
+
 import controllers.main
+from controllers.tournament import TournamentController
+from modeles import Player
+from persistance import DatabasesTinydb
+from views.common import Usefull
+from views.player import PlayerView
 
 
 class PlayerController:
-
     def __init__(self):
         self.view = PlayerView()
         self.usefull = Usefull()
@@ -81,7 +81,9 @@ class PlayerController:
             }
         )
         print("")
-        print(f"Le joueur {current_player.firstname} {current_player.surname} ({current_player.ident}) a été créé")
+        print(
+            f"Le joueur {current_player.firstname} {current_player.surname} ({current_player.ident}) a été créé"
+        )
         print("")
 
     def delete_player(self):
@@ -94,7 +96,7 @@ class PlayerController:
             print(f"{ident} n'existe pas !")
             print("")
         else:
-            print(f"Le joueur {get_info_player[0]['firstname']} {get_info_player[0]['surname']} ({ident}) a été supprimé")
+            print(
+                f"Le joueur {get_info_player[0]['firstname']} {get_info_player[0]['surname']} ({ident}) a été supprimé"
+            )
             print("")
-
-

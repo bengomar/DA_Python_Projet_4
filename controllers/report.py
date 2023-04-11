@@ -1,10 +1,10 @@
-from views.report import ReportsView
-from views.player import PlayerView
-from views.common import Usefull
 from controllers.player import PlayerController
+from views.common import Usefull
+from views.player import PlayerView
+from views.report import ReportsView
+
 
 class ReportController:
-
     def __init__(self):
         self.player_controller = PlayerController()
         self.usefull = Usefull()

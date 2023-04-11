@@ -1,4 +1,5 @@
 from tinydb import Query, TinyDB, where
+
 from modeles import Player
 
 
@@ -22,24 +23,20 @@ class DatabasesTinydb:
         print("")
         self.tournaments.insert(
             {
-                current_tournament.name:
-                    {
-                        "location": current_tournament.location,
-                        "date_start": current_tournament.date_start,
-                        "date_end": current_tournament.date_end,
-                        "nb_round": current_tournament.nb_round,
-                        "current_round": round_number,
-                        # "round_list": current_tournament.rounds,
-                        # "players": current_tournament.players,
-                        # [{"round_list": ronde} for ronde in current_tournament.rounds],
-                        # [{"players": player} for player in current_tournament.players],
-                        "description": current_tournament.description
-                    }
+                current_tournament.name: {
+                    "location": current_tournament.location,
+                    "date_start": current_tournament.date_start,
+                    "date_end": current_tournament.date_end,
+                    "nb_round": current_tournament.nb_round,
+                    "current_round": round_number,
+                    # "round_list": current_tournament.rounds,
+                    # "players": current_tournament.players,
+                    # [{"round_list": ronde} for ronde in current_tournament.rounds],
+                    # [{"players": player} for player in current_tournament.players],
+                    "description": current_tournament.description,
+                }
             }
         )
-
-
-
 
     #
     # def sorted_players_list_ident(self):
