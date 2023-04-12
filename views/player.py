@@ -8,6 +8,7 @@ from views.common import Usefull
 class PlayerView:
     def __init__(self):
         self.usefull = Usefull()
+        self.form = "{0:10}{1:10}{2:10}{3:10}"
 
     def player_menu(self):
         """Menu Joueurs"""
@@ -33,7 +34,8 @@ class PlayerView:
         """Liste les joueurs"""
         print("")
         print("Liste des joueurs enregistrés: ")
-        print("Id      Nom, Prénom, Date de naissance")
+        head = self.form.format("Id", "Nom", "Prénom", "Date de naissance")
+        print(colored(head, 'blue',  attrs=['bold']))
 
     def get_player_data(self):
         """Saisie des données d'un nouveau joueur"""

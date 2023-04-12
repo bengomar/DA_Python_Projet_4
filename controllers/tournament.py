@@ -303,9 +303,7 @@ class TournamentController:
                         [f"{player[0].surname} {player[0].firstname}", player[0].score]
                     )
 
-            self.usefull.wait()
             # rounds list
-            # current_round_data = self.get_round_list(matches, self.round_number)
             current_tournament.rounds.append(Round(matches, self.round_number))
 
             round_date_end = datetime.today().strftime("%d%m%Y-%H%M")
@@ -322,12 +320,7 @@ class TournamentController:
             current_tournament, self.round_number
         )
 
-        for tournament in self.persistance.tournaments:
-            print(tournament)
-
-        # print("")
-        # print(f"{current_round_data}")
-        # print(f"{current_tournament.rounds=}")
-
-        print("Tournament is done")
+        print("Fin du tournoi")
+        self.usefull.wait()
+        return
         # Display all matches of all rounds in the tournament

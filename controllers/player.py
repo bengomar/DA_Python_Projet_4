@@ -1,3 +1,4 @@
+from termcolor import colored
 from tinydb import where
 
 import controllers.main
@@ -15,6 +16,7 @@ class PlayerController:
         self.player = Player
         self.tournament_controller = TournamentController()
         self.database = DatabasesTinydb()
+        self.form = "{0:10}{1:10}{2:10}{3:10}"
 
     def display_menu_players(self):
         """Menu Joueurs"""
@@ -28,10 +30,7 @@ class PlayerController:
         elif choice == "2":
             # Supprimer un joueur
             self.usefull.clear()
-            print("")
-            print("Liste des joueurs enregistrés:")
-            print("")
-            print("Ident   Nom, Prénom, Date de naissance")
+            self.view.print_player_list()
             self.players_list_sorted()
             print("")
             self.delete_player()
@@ -39,6 +38,7 @@ class PlayerController:
             self.display_menu_players()
         elif choice == "3":
             # Lister les joueurs
+            self.view.print_player_list()
             self.players_list_sorted()
             self.usefull.wait()
             self.display_menu_players()
@@ -52,8 +52,8 @@ class PlayerController:
 
     def players_list_sorted(self):
         """Liste des joueurs par ordre alphabétique"""
-
         player_list_alpha = []
+
         for player in self.database.players:
             ident = player.get("ident")
             surname = player.get("surname")
@@ -64,7 +64,8 @@ class PlayerController:
             # print(f"     {ident} {surname},{firstname}")
 
         for alpha in sorted(player_list_alpha):
-            print(f"{alpha[2]} {alpha[0]} {alpha[1]} {alpha[3]}")
+            #print(f"{alpha[2]} {alpha[0]} {alpha[1]} {alpha[3]}")
+            print(self.form.format(alpha[2], alpha[0], alpha[1], alpha[3]))
 
     def create_new_player(self):
         """Ajout d'un joueur dans la table Tinydb.players"""
@@ -81,9 +82,8 @@ class PlayerController:
             }
         )
         print("")
-        print(
-            f"Le joueur {current_player.firstname} {current_player.surname} ({current_player.ident}) a été créé"
-        )
+        message = f"Le joueur {current_player.firstname} {current_player.surname} {current_player.ident} a été créé."
+        print(colored(message, 'blue', attrs=['bold']))
         print("")
 
     def delete_player(self):
@@ -93,10 +93,12 @@ class PlayerController:
         get_info_player = self.database.players.search(where("ident") == ident)
         delete_player_id = self.database.players.remove(where("ident") == ident)
         if not delete_player_id:
-            print(f"{ident} n'existe pas !")
+            print(colored(f"{ident} n'existe pas !", 'red', attrs=['bold']))
             print("")
         else:
-            print(
-                f"Le joueur {get_info_player[0]['firstname']} {get_info_player[0]['surname']} ({ident}) a été supprimé"
+            print(colored
+                (
+                    f"Le joueur {get_info_player[0]['firstname']} {get_info_player[0]['surname']} ({ident}) a été supprimé", 'blue', attrs=['bold']
+                )
             )
             print("")

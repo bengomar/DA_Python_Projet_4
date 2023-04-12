@@ -2,11 +2,13 @@ from controllers.player import PlayerController
 from views.common import Usefull
 from views.player import PlayerView
 from views.report import ReportsView
+from persistance import DatabasesTinydb
 
 
 class ReportController:
     def __init__(self):
         self.player_controller = PlayerController()
+        self.database = DatabasesTinydb()
         self.usefull = Usefull()
 
     def menu_reports(self):
@@ -21,25 +23,20 @@ class ReportController:
             self.menu_reports()
         elif choice == "2":
             # Liste des tournois
-            DatabasesTinydb().tournaments_list_formated()
-            Usefull.wait()
+            self.database.tournaments_list_formated()
+            self.usefull.wait()
             self.menu_reports()
         elif choice == "3":
-            # Données d'un tournoi
-            print("nom et dates d’un tournoi donné")
-            Usefull.wait()
+            # Liste des joueurs du dernier tournoi par ordre alphabétique
+            print("Liste des joueurs du dernier tournoi par ordre alphabétique")
+            self.usefull.wait()
             self.menu_reports()
         elif choice == "4":
-            # Liste des joueurs du dernier tournoi par ordre alphabétique
-            DatabasesTinydb().check_table_competitors()
-            Usefull.wait()
-            self.menu_reports()
-        elif choice == "5":
             # Liste des tours et matchs du dernier tournoi
             print("Liste des tours et matchs du dernier tournoi")
-            Usefull.wait()
+            self.usefull.wait()
             self.menu_reports()
-        elif choice == "6":
+        elif choice == "5":
             # Retour
             return
         else:

@@ -18,10 +18,9 @@ class ReportsView:
         print("")
         print("   1.  Liste de tous les joueurs par ordre alphabétique")
         print("   2.  Liste de tous les tournois ")
-        print("   3.  Données d'un tournoi ")
-        print("   4.  Liste des joueurs d'un tournoi par ordre alphabétique")
-        print("   5.  Liste des tours et des matchs de chaque tour d'un tournoi")
-        print("   6.  Retour")
+        print("   3.  Liste des joueurs d'un tournoi par ordre alphabétique")
+        print("   4.  Liste des tours et des matchs de chaque tour d'un tournoi")
+        print("   5.  Retour")
 
         print("")
         option = input("Votre choix ---> ")
