@@ -53,35 +53,6 @@ class DatabasesTinydb:
         for tournament in self.tournaments:
             print(tournament)
 
-    # def search_ident_player(self, ident: str):
-    #     """Recherche d'un joueur dans la table players avec son identifiant"""
-    #     self.ident = ident
-    #
-    #     # Tinydb.players.search(where('ident') == self.ident)
-    #     find_player = DatabasesTinydb.players.search(where("ident") == self.ident)
-    #     print(find_player)
-    #
-
-    #
-    # def get_tournament(self):
-    #     """recherche de tournoi en cours (n'ayant pas de date de fin)"""
-    #
-    #     end_date_get = DatabasesTinydb.tournaments.search(where("date_end") == "")
-    #
-    #     number_t = 0
-    #     # TournamentView().running_tournament()
-    #     print("")
-    #     print("CENTRE ÉCHECS - Tournois")
-    #     print("")
-    #     print("Tournoi(s) en cours:")
-    #
-    #     for tournament_run in end_date_get:
-    #         number_t += 1
-    #         print(
-    #             f"   {number_t}. Tournoi {tournament_run.get('name')}, {tournament_run.get('location')} "
-    #         )
-    #
-
     def tournaments_list_formated(self):
         """Parcourir la table tournaments"""
         form = "{0:20}{1:15}{2:10}{3:15}{4:15}{5:}"

@@ -29,21 +29,6 @@ class TournamentController:
     players = []
     resultat = []
 
-    # players = [
-    #     Player(1, "CA12345", "CARLOS", "Roberto", "11112011"),
-    #     Player(2, "ME45699", "MESSI", "Lionel", "11112011"),
-    #     Player(3, "ZE99663", "ZINEDINE", "Zidane", "11112011"),
-    #     Player(4, "PE45781", "PETIT", "Emmanuel", "11112011"),
-    #     Player(5, "ZO50001", "DESCHAMPS", "Didier", "11112011"),
-    #     Player(6, "VI22215", "VIEIRA", "Patrick", "11112011"),
-    #     Player(7, "LI58871", "LIZARAZU", "Bixente", "11112011"),
-    #     Player(8, "BE66993", "BENZEMA", "Karim", "11112011")
-    #     # Player(9, "NM00001", "BELLOUMI", "Lakhdar", "11112011"),
-    #     # Player(10, "VI00002", "MADJER", "Rabah", "11112011"),
-    #     # Player(11, "LI00004", "MARADONA", "Diego", "11112011"),
-    #     # Player(12, "BE00005", "VAN BASTEN", "Marco", "11112011")
-    # ]
-
     for index, player in enumerate(DatabasesTinydb().players):
         idx = index
         ident = player["ident"]
@@ -76,9 +61,6 @@ class TournamentController:
                 list_1.append(selected_player[i])
             else:
                 list_2.append(selected_player[i])
-
-        # list_1 = selected_player[0:2]
-        # list_2 = selected_player[2:4]
         nb_match = len(selected_player) // 2
 
         for i in range(0, nb_match):
@@ -88,55 +70,32 @@ class TournamentController:
             self.opponents_by_player[player_2.ident].remove(player_1)
             print(f"     {player_1} -vs- {player_2}")
             matchs_list.append([player_1, player_2])
-        # print("")
-        # print(f"{self.opponents_by_player=}")
         return matchs_list
 
     def generate_pairs_for_round(self, players: list):
         """Génération des pairs de joueurs pour les autres rounds"""
 
         players_to_pair = []
-        # print("Generate pairs for round:")
-        # print("*" * 10)
-
         for player in players:
             players_to_pair.append(player)
-
-        # print(f"{players_to_pair=}")
-
-        # Generate new pairs from opponents_by_player
-
         pairs = []
 
         while players_to_pair:
             current_player = players_to_pair.pop()
             opponents = self.opponents_by_player[current_player.ident]
-
-            # print(f"{current_player=}")
-            # print(f"{opponents=}")
-
             for opponent in opponents:
                 if (
                     opponent in players_to_pair
                     and opponent in self.opponents_by_player[current_player.ident]
                 ):
                     new_opponent = opponent
-
                     # Create pair
                     pairs.append([current_player, new_opponent])
-                    # print(f"{pairs=}")
-
                     players_to_pair.remove(opponent)
-                    # print(f"{players_to_pair=}")
-
-                    # print(f"{current_player.ident=}")
-                    # print(f"{opponent.ident=}")
-
                     self.opponents_by_player[current_player.ident].remove(opponent)
                     self.opponents_by_player[opponent.ident].remove(current_player)
                     print(f"     {current_player} -vs- {new_opponent}")
                     break
-
         return pairs
 
     def create_matches(self, pairs) -> List[Match]:
@@ -159,21 +118,12 @@ class TournamentController:
             score_progress = False
             while score_progress is False:
                 player_match_score = input(f" Saisir le score du joueur {player_obj}: ")
-                # try:
-                #     float(player_match_score)
-                #     player_match_score = float(player_match_score)
-                #     score_progress = True
-                # except ValueError:
-                #     print("")
-                #     print("!!! Entrée non valide, saisir 0, 1 ou 0.5 !!!")
-
                 try:
                     if (
                         (float(player_match_score) == 0)
                         or (float(player_match_score) == 0.5)
                         or (float(player_match_score) == 1)
                     ):
-                        # print(player_match_score)
                         score_progress = True
                     else:
                         print(
@@ -208,7 +158,6 @@ class TournamentController:
             f"Résumé des scores des joueurs du tournois",
             colored('"' + current_tournament.name + '"', "blue", attrs=["bold"]),
         )
-        # print(f"{resultat=}")
         sorted_resultat = sorted(resultat, key=lambda x: x[1], reverse=True)
         for score in sorted_resultat:
             print(colored(f"          {score[0]} = {score[1]}", "blue", attrs=["bold"]))
@@ -217,8 +166,6 @@ class TournamentController:
         # Display view to get inputs for the new tournament
         tournament_data = self.tournament_view.get_tournament_data()
         current_tournament = Tournament(*tournament_data)
-
-        # ----> current_tournament.save()
 
         # Presentation of tournament
         print("")
@@ -242,15 +189,11 @@ class TournamentController:
         current_tournament.players = self.tournament_view.select_players_for_tournament(
             self.players
         )
-        # ---> current_tournament.players.save()
-
-        # print(f"{current_tournament.players}")
 
         # Create dictionary to store who played with who
         self.opponents_by_player = self.create_dico_player_playing(
             current_tournament.players
         )
-        # print(f"{self.opponents_by_player = }")
 
         # For round in rounds:
 
@@ -323,4 +266,3 @@ class TournamentController:
         print("Fin du tournoi")
         self.usefull.wait()
         return
-        # Display all matches of all rounds in the tournament

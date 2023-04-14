@@ -8,7 +8,7 @@ from views.common import Usefull
 class PlayerView:
     def __init__(self):
         self.usefull = Usefull()
-        self.form = "{0:10}{1:10}{2:10}{3:10}"
+        self.form = "{0:9}{1:12}{2:10}{3:10}"
 
     def player_menu(self):
         """Menu Joueurs"""
@@ -45,29 +45,12 @@ class PlayerView:
         firstname = input("Prénom du joueur: ").capitalize()
 
         while True:
-            date_entered = input("Date de naissance du joueur (jjmmaaaa): ")
+            date_entered = input("Date de naissance du joueur (jj-mm-aaaa): ")
             try:
-                date_of_birth = datetime.strptime(date_entered, "%d%m%Y").strftime(
-                    "%d%m%Y"
+                date_of_birth = datetime.strptime(date_entered, "%d-%m-%Y").strftime(
+                    "%d-%m-%Y"
                 )
                 break
             except ValueError:
                 print("Le date est invalide ")
         return [index, ident, surname, firstname, date_of_birth]
-
-    def search_player_id_to_delete(self):
-        """Saisie de l'identifiant d'un joueur à supprimer"""
-        ident = input("Saisissez Id du joueur à supprimer :  ")
-        return ident
-
-    def add_players_to_tournament(self):
-        """ajout de joueur au tournoi"""
-        print("")
-        num_player_list = input("Sélectionner une option  :  ")
-        return num_player_list
-
-    def get_score_player(self, family_name, name):
-        """saisie du score joueur"""
-        print("")
-        score_in = input(f"Saisir le score du joueur {name} {family_name}: ")
-        return score_in

@@ -4,6 +4,7 @@ from typing import List
 from modeles import Player
 from views.common import Usefull
 from views.player import PlayerView
+from termcolor import colored
 
 
 class TournamentView:
@@ -36,7 +37,7 @@ class TournamentView:
         add_player_ended = False
         while add_player_ended is False:
             if not selected_players:
-                print("Liste des joueurs disponibles:")
+                print(colored("Liste des joueurs disponibles:", 'blue', attrs=['bold']))
                 print("   Id      Nom, Prénom")
                 for index, player in enumerate(players_not_selected):
                     print(f"{index + 1}. {player}")
@@ -86,7 +87,7 @@ class TournamentView:
                 if not players_not_selected:
                     break
                 else:
-                    print("Liste des joueurs disponibles:")
+                    print(colored("Liste des joueurs disponibles:", 'blue', attrs=['bold']))
                     print("   Id      Nom, Prénom")
                     for index, player in enumerate(players_not_selected):
                         print(f"{index + 1}. {player}")

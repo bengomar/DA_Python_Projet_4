@@ -3,6 +3,7 @@ from views.common import Usefull
 from views.player import PlayerView
 from views.report import ReportsView
 from persistance import DatabasesTinydb
+from termcolor import colored
 
 
 class ReportController:
@@ -27,8 +28,8 @@ class ReportController:
             self.usefull.wait()
             self.menu_reports()
         elif choice == "3":
-            # Liste des joueurs du dernier tournoi par ordre alphabétique
-            print("Liste des joueurs du dernier tournoi par ordre alphabétique")
+            #  Liste des joueurs d'un tournoi par ordre alphabétique
+            self.get_tournament_players()
             self.usefull.wait()
             self.menu_reports()
         elif choice == "4":
@@ -43,3 +44,28 @@ class ReportController:
             print("Saisie invalide, veuillez réessayer")
             Usefull.wait()
             self.menu_reports()
+
+    def get_tournament_players(self):
+        """Liste des joueurs d'un tournoi donné"""
+        indice = 1
+        tournaments_list = []
+        if not self.database.tournaments:
+            print("Il n'y a actuellement aucun tournoi d'enregistré !!!")
+        else:
+            print(colored("Tournois enregistrés", "blue", attrs=["bold"]))
+            for tournament in self.database.tournaments:
+                for key in tournament:
+                    print(f"{indice}. {key}")
+                    tournaments_list.append(key)
+                    indice += 1
+        print("")
+        choice = input("Votre choix ---> ")
+        tournament_name = tournaments_list[int(choice) - 1]
+        print(tournament_name)
+        print("*"*50)
+        for tournoi in self.database.tournaments:
+            print(tournoi[str(tournament_name)])
+
+
+
+
