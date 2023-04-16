@@ -26,7 +26,6 @@ class MainController:
                 # Lancer un tournoi
                 self.tournament_controller.start_tournament()
                 Usefull.wait(self)
-                self.run()
             elif choice == "2":
                 # Menu joueurs
                 self.player_controller.display_menu_players()
@@ -36,8 +35,6 @@ class MainController:
             elif choice == "4":
                 # Sortir
                 in_progress = False
-                # sys.exit()
             else:
                 print("Saisie invalide, veuillez réessayer")
                 Usefull.wait(self)
-                self.run()

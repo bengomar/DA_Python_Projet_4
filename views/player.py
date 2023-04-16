@@ -35,7 +35,7 @@ class PlayerView:
         print("")
         print("Liste des joueurs enregistrés: ")
         head = self.form.format("Id", "Nom", "Prénom", "Date de naissance")
-        print(colored(head, 'blue',  attrs=['bold']))
+        print(colored(head, "blue", attrs=["bold"]))
 
     def get_player_data(self):
         """Saisie des données d'un nouveau joueur"""

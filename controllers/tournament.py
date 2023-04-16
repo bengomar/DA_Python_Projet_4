@@ -7,9 +7,9 @@ from termcolor import colored
 from modeles import Match, Player, Round, Tournament
 from persistance import DatabasesTinydb
 from views.common import Usefull
+from views.main import MainView
 from views.player import PlayerView
 from views.tournament import TournamentView
-from views.main import MainView
 
 
 class TournamentController:

@@ -1,7 +1,8 @@
+import time
+
 from termcolor import colored
 from tinydb import where
 
-import controllers.main
 from controllers.tournament import TournamentController
 from modeles import Player
 from persistance import DatabasesTinydb
@@ -48,6 +49,7 @@ class PlayerController:
 
         else:
             print("Saisie invalide, veuillez réessayer")
+            time.sleep(0.4)
             self.display_menu_players()
 
     def players_list_sorted(self):
@@ -61,10 +63,8 @@ class PlayerController:
             date_of_birth = player.get("date_of_birth")
 
             player_list_alpha.append([surname, firstname, ident, date_of_birth])
-            # print(f"     {ident} {surname},{firstname}")
 
         for alpha in sorted(player_list_alpha):
-            #print(f"{alpha[2]} {alpha[0]} {alpha[1]} {alpha[3]}")
             print(self.form.format(alpha[2], alpha[0], alpha[1], alpha[3]))
 
     def create_new_player(self):
@@ -83,7 +83,7 @@ class PlayerController:
         )
         print("")
         message = f"Le joueur {current_player.firstname} {current_player.surname} {current_player.ident} a été créé."
-        print(colored(message, 'blue', attrs=['bold']))
+        print(colored(message, "blue", attrs=["bold"]))
         print("")
 
     def delete_player(self):
@@ -93,12 +93,14 @@ class PlayerController:
         get_info_player = self.database.players.search(where("ident") == ident)
         delete_player_id = self.database.players.remove(where("ident") == ident)
         if not delete_player_id:
-            print(colored(f"{ident} n'existe pas !", 'red', attrs=['bold']))
+            print(colored(f"{ident} n'existe pas !", "red", attrs=["bold"]))
             print("")
         else:
-            print(colored
-                (
-                    f"Le joueur {get_info_player[0]['firstname']} {get_info_player[0]['surname']} ({ident}) a été supprimé", 'blue', attrs=['bold']
+            print(
+                colored(
+                    f"Le joueur {get_info_player[0]['firstname']} {get_info_player[0]['surname']} ({ident}) a été supprimé",
+                    "blue",
+                    attrs=["bold"],
                 )
             )
             print("")

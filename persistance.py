@@ -43,7 +43,7 @@ class DatabasesTinydb:
                 "current_round": str(round_number),
                 "players": players_json,
                 "round_list": round_json,
-                "description": current_tournament.description
+                "description": current_tournament.description,
             }
         )
 
@@ -65,18 +65,18 @@ class DatabasesTinydb:
                 "Rounds",
                 "Date de début",
                 "Date de fin",
-                "Remarques générales"
+                "Remarques générales",
             )
             print(colored(head, "blue", attrs=["bold"]))
             for tournament in self.tournaments:
                 print(
                     form.format(
-                        tournament.get('name'),
-                        tournament.get('location'),
-                        tournament.get('nb_round'),
-                        tournament.get('date_start'),
-                        tournament.get('date_end'),
-                        tournament.get('description')
+                        tournament.get("name"),
+                        tournament.get("location"),
+                        tournament.get("nb_round"),
+                        tournament.get("date_start"),
+                        tournament.get("date_end"),
+                        tournament.get("description"),
                     )
                 )
 
