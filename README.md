@@ -11,9 +11,12 @@ source env/bin/activate
 
 ## Description du projet
 
+Logiciel de gestion de tournois et de joueurs d'échecs.
+Ce programme permet de lancer des tournois et de stocker les informations concernant les joueurs, les tournois, les rounds et les matchs.
+Un menu "Rapports" permet de consulter ces informations.
+Enfin, un menu "Gestion des Joueurs" permet l'ajout ou la suppression de joueurs en base.
+
 
 ### Execution du programme :
     
-```run.py```
-    
-**En gras**
+```python run.py```
