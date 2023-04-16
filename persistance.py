@@ -35,16 +35,15 @@ class DatabasesTinydb:
         print("")
         self.tournaments.insert(
             {
-                current_tournament.name: {
-                    "location": current_tournament.location,
-                    "date_start": current_tournament.date_start,
-                    "date_end": current_tournament.date_end,
-                    "nb_round": current_tournament.nb_round,
-                    "current_round": round_number,
-                    "players": players_json,
-                    "round_list": round_json,
-                    "description": current_tournament.description,
-                }
+                "name": current_tournament.name,
+                "location": current_tournament.location,
+                "date_start": current_tournament.date_start,
+                "date_end": current_tournament.date_end,
+                "nb_round": str(current_tournament.nb_round),
+                "current_round": str(round_number),
+                "players": players_json,
+                "round_list": round_json,
+                "description": current_tournament.description
             }
         )
 
@@ -70,14 +69,25 @@ class DatabasesTinydb:
             )
             print(colored(head, "blue", attrs=["bold"]))
             for tournament in self.tournaments:
-                for key, data in tournament.items():
-                    print(
-                        form.format(
-                            key,
-                            data["location"],
-                            f"{str(data['nb_round'])} tours",
-                            data["date_start"],
-                            data["date_end"],
-                            data["description"]
-                        )
+                print(
+                    form.format(
+                        tournament.get('name'),
+                        tournament.get('location'),
+                        tournament.get('nb_round'),
+                        tournament.get('date_start'),
+                        tournament.get('date_end'),
+                        tournament.get('description')
                     )
+                )
+
+                # for key, data in tournament.items():
+                #     print(
+                #         form.format(
+                #             key,
+                #             data['location'],
+                #             f"{str(data['nb_round'])} tours",
+                #             data['date_start'],
+                #             data['date_end'],
+                #             data['description']
+                #         )
+                #     )

@@ -9,10 +9,12 @@ from persistance import DatabasesTinydb
 from views.common import Usefull
 from views.player import PlayerView
 from views.tournament import TournamentView
+from views.main import MainView
 
 
 class TournamentController:
     def __init__(self):
+        self.main_view = MainView()
         self.tournament_view = TournamentView()
         self.player_view = PlayerView()
         self.usefull = Usefull()
@@ -247,7 +249,7 @@ class TournamentController:
                     )
 
             # rounds list
-            current_tournament.rounds.append(Round(matches, self.round_number))
+            current_tournament.rounds.append(Round(matches, str(self.round_number)))
 
             round_date_end = datetime.today().strftime("%d%m%Y-%H%M")
             print("")
@@ -264,5 +266,3 @@ class TournamentController:
         )
 
         print("Fin du tournoi")
-        self.usefull.wait()
-        return

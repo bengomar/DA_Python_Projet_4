@@ -25,7 +25,8 @@ class MainController:
             if choice == "1":
                 # Lancer un tournoi
                 self.tournament_controller.start_tournament()
-                return
+                Usefull.wait(self)
+                self.run()
             elif choice == "2":
                 # Menu joueurs
                 self.player_controller.display_menu_players()

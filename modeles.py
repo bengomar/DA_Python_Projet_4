@@ -48,7 +48,7 @@ class Match:
 class Round:
     matches = []
 
-    def __init__(self, matches: list, rounds: int):
+    def __init__(self, matches: list, rounds: str):
         self.matches = matches
         self.rounds = rounds
         self.name = "Round " + str(rounds)
