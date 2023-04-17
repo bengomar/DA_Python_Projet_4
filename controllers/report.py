@@ -13,6 +13,7 @@ class ReportController:
         self.player_controller = PlayerController()
         self.database = DatabasesTinydb()
         self.usefull = Usefull()
+        self.view = ReportsView()
         self.form = "{0:9}{1:12}{2:10}{3:10}"
         self.tournament_name = ""
 
@@ -20,74 +21,80 @@ class ReportController:
         """Menu Rapports"""
         in_progress = False
         while in_progress is False:
-            choice = ReportsView().reports_infos_menu()
-            try:
-                if choice == "1":
-                    # Liste des joueurs par ordre alphabétique
+            choice = self.view.reports_infos_menu()
+            if choice == "1":
+                # Liste des joueurs par ordre alphabétique
+                if not self.database.players:
+                    print('La table "players" est vide !')
+                    self.usefull.wait()
+                    # self.menu_reports()
+                else:
                     PlayerView().print_player_list()
                     self.player_controller.players_list_sorted()
                     self.usefull.wait()
-                    # self.menu_reports()
-                elif choice == "2":
-                    # Liste des tournois
+            elif choice == "2":
+                # Liste des tournois
+                if not self.database.tournaments:
+                    print("Il n'y a actuellement aucun tournoi d'enregistré !!!")
+                    self.usefull.wait()
+                else:
                     self.database.tournaments_list_formated()
                     self.usefull.wait()
-                elif choice == "3":
-                    #  Classement des joueurs d'un tournoi par score
+            elif choice == "3":
+                #  Classement des joueurs d'un tournoi par score
+                if not self.database.tournaments:
+                    print("Il n'y a actuellement aucun tournoi d'enregistré !!!")
+                    self.usefull.wait()
+                else:
                     self.get_tournament_players()
                     self.usefull.wait()
-                elif choice == "4":
-                    # Résultat des matchs de chaque tour d'un tournoi
+            elif choice == "4":
+                # Résultat des matchs de chaque tour d'un tournoi
+                if not self.database.tournaments:
+                    print("Il n'y a actuellement aucun tournoi d'enregistré !!!")
+                    self.usefull.wait()
+                    # self.menu_reports()
+                else:
                     print("Résultat des matchs de chaque tour d'un tournoi")
                     self.get_tournament_matches_by_round()
                     self.usefull.wait()
-                elif choice == "5":
-                    # Retour
-                    in_progress = True
-                else:
-                    print("Saisie invalide, veuillez réessayer")
-                    self.usefull.wait()
-                    self.menu_reports()
-            except:
+            elif choice == "5":
+                # Retour
+                in_progress = True
+            else:
                 print("Saisie invalide, veuillez réessayer")
                 self.usefull.wait()
-                self.menu_reports()
 
     def get_tournaments_tournament(self):
         """Récupère les données d'un tournoi en utilisant le nom de tournoi"""
         indice = 1
         tournaments_list = []
 
-        if not self.database.tournaments:
-            print("Il n'y a actuellement aucun tournoi d'enregistré !!!")
-            Usefull.wait()
-            self.menu_reports()
-        else:
-            print(colored("Tournois existants", "blue", attrs=["bold"]))
-            for tournament in self.database.tournaments:
-                tournament_name = tournament.get("name")
-                print(f"{indice}. {tournament_name}")
-                tournaments_list.append(tournament_name)
-                indice += 1
-            print("")
-            nb_tournament = len(tournaments_list)
-            choose_tournament = False
-            while choose_tournament is False:
-                choice = input("Sélectionnez un tournoi ---> ")
-                try:
-                    if (int(choice) > 0) and (int(choice) <= nb_tournament):
-                        self.tournament_name = tournaments_list[int(choice) - 1]
-                        choose_tournament = True
-                    else:
-                        text = "!!! Entrée non valide, réessayez !!!"
-                        print(colored(text, "red", attrs=["bold"]))
-                        print("")
-
-                except:
-                    print(f"", colored(text, "red", attrs=["bold"]))
+        print(colored("Tournois existants", "blue", attrs=["bold"]))
+        for tournament in self.database.tournaments:
+            tournament_name = tournament.get("name")
+            print(f"{indice}. {tournament_name}")
+            tournaments_list.append(tournament_name)
+            indice += 1
+        print("")
+        nb_tournament = len(tournaments_list)
+        choose_tournament = False
+        while choose_tournament is False:
+            choice = input("Sélectionnez un tournoi ---> ")
+            try:
+                if (int(choice) > 0) and (int(choice) <= nb_tournament):
+                    self.tournament_name = tournaments_list[int(choice) - 1]
+                    choose_tournament = True
+                else:
+                    text = "!!! Entrée non valide, réessayez !!!"
+                    print(colored(text, "red", attrs=["bold"]))
                     print("")
-            print("")
-            return self.tournament_name
+
+            except:
+                print(f"", colored(text, "red", attrs=["bold"]))
+                print("")
+        print("")
+        return self.tournament_name
 
     def get_tournament_players(self):
         """Liste des joueurs d'un tournoi donné"""

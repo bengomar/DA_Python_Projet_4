@@ -162,7 +162,7 @@ class TournamentController:
         )
         sorted_resultat = sorted(resultat, key=lambda x: x[1], reverse=True)
         for score in sorted_resultat:
-            print(colored(f"          {score[0]} = {score[1]}", "blue", attrs=["bold"]))
+            print(colored(f" {score[0]} = {score[1]}", "blue", attrs=["bold"]))
 
     def start_tournament(self):
         # Display view to get inputs for the new tournament
@@ -206,7 +206,8 @@ class TournamentController:
                 print("                     *********************")
                 print("")
 
-                round_date_start = datetime.today().strftime("%d%m%Y-%H%M")
+                # round_date_start = datetime.today().strftime("%d%m%Y-%H%M")
+                # print("---round_date_start---->", round_date_start)
                 pairs = self.generate_pairs_randomly(current_tournament.players)
 
             else:
@@ -215,7 +216,8 @@ class TournamentController:
                 print("                     *********************")
                 print("")
 
-                round_date_start = datetime.today().strftime("%d%m%Y-%H%M")
+                # round_date_start = datetime.today().strftime("%d%m%Y-%H%M")
+                # print("---round_date_start---->", round_date_start)
                 players_sorted_by_score = sorted(
                     current_tournament.players, key=lambda p: p.score, reverse=True
                 )
@@ -251,7 +253,8 @@ class TournamentController:
             # rounds list
             current_tournament.rounds.append(Round(matches, str(self.round_number)))
 
-            round_date_end = datetime.today().strftime("%d%m%Y-%H%M")
+            # round_date_end = datetime.today().strftime("%d%m%Y-%H%M")
+            # print("---round_date_end---->", round_date_end)
             print("")
 
         current_tournament.date_end = datetime.today().strftime("%d-%m-%Y")
@@ -265,4 +268,4 @@ class TournamentController:
             current_tournament, self.round_number
         )
 
-        print("Fin du tournoi")
+        print(f"Fin du tournoi ({current_tournament.date_end})")

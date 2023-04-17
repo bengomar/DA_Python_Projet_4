@@ -30,18 +30,26 @@ class PlayerController:
             self.display_menu_players()
         elif choice == "2":
             # Supprimer un joueur
-            self.usefull.clear()
-            self.view.print_player_list()
-            self.players_list_sorted()
-            print("")
-            self.delete_player()
-            self.usefull.wait()
+            if not self.database.players:
+                print('La table "players" est vide !')
+                self.usefull.wait()
+            else:
+                self.usefull.clear()
+                self.view.print_player_list()
+                self.players_list_sorted()
+                print("")
+                self.delete_player()
+                self.usefull.wait()
             self.display_menu_players()
         elif choice == "3":
             # Lister les joueurs
-            self.view.print_player_list()
-            self.players_list_sorted()
-            self.usefull.wait()
+            if not self.database.players:
+                print('La table "players" est vide !')
+                self.usefull.wait()
+            else:
+                self.view.print_player_list()
+                self.players_list_sorted()
+                self.usefull.wait()
             self.display_menu_players()
         elif choice == "4":
             # Retour
