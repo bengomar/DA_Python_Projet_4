@@ -38,8 +38,12 @@ source env/bin/activate
 
 ![main_menu](img/menu_principal.png)
 
-![main_menu](img/menu_joueurs.png)
+![player_menu](img/menu_joueurs.png)
 
-![main_menu](img/menu_rapports.png)
+![report_menu](img/menu_rapports.png)
 
 #### Exemples d'affichage:
+
+![players_list](img/menu_joueur-liste_joueurs.png)
+
+![tournaments_list](img/menu_rapports-list_tournois.png)
