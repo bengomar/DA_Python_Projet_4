@@ -29,7 +29,8 @@ class TournamentView:
         choice = input("Votre choix ---> ")
         return choice
 
-    def select_players_for_tournament(self, players: List[Player]) -> List[Player]:
+    def add_players_tournament(self,
+                               players: List[Player]) -> List[Player]:
         """Ajout de joueurs disponibles dans le tournoi en cours"""
 
         players_not_selected = players
@@ -38,13 +39,16 @@ class TournamentView:
         add_player_ended = False
         while add_player_ended is False:
             if not selected_players:
-                print(colored("Liste des joueurs disponibles:", "blue", attrs=["bold"]))
+                print(colored("Liste des joueurs disponibles:",
+                              "blue",
+                              attrs=["bold"]))
                 print("   Id      Nom, Prénom")
                 for index, player in enumerate(players_not_selected):
                     print(f"{index + 1}. {player}")
                 print(f"{index + 2}. Ajouter tous les joueurs disponibles")
 
-                if len(selected_players) % 2 == 0 and len(selected_players) >= 8:
+                if len(selected_players) % 2 == 0 \
+                        and len(selected_players) >= 8:
                     print(f"{index + 3}. Fin de selection")
                 print("")
                 print("Ajoutez un joueur au tournoi:")
@@ -55,14 +59,16 @@ class TournamentView:
                 except ValueError:
                     print("")
                     print(
-                        "!!! Choix non valide, sélectionner un des chiffres de la liste !!!"
+                        "!!! Choix non valide,"
+                        " sélectionner un des chiffres de la liste !!!"
                     )
                     self.usefull.wait()
                     continue
                 if abs(choice) > len(players_not_selected) + 1:
                     print("")
                     print(
-                        "!!! Choix non valide, sélectionner un des chiffres de la liste !!!"
+                        "!!! Choix non valide,"
+                        " sélectionner un des chiffres de la liste !!!"
                     )
                     self.usefull.wait()
                     continue
@@ -90,13 +96,16 @@ class TournamentView:
                 else:
                     print(
                         colored(
-                            "Liste des joueurs disponibles:", "blue", attrs=["bold"]
+                            "Liste des joueurs disponibles:",
+                            "blue",
+                            attrs=["bold"]
                         )
                     )
                     print("   Id      Nom, Prénom")
                     for index, player in enumerate(players_not_selected):
                         print(f"{index + 1}. {player}")
-                    if len(selected_players) % 2 == 0 and len(selected_players) >= 8:
+                    if len(selected_players) % 2 == 0 and\
+                            len(selected_players) >= 8:
                         print(f"{index + 2}. Fin de selection")
                     print("")
                     print("Ajoutez un joueur au tournoi:")
@@ -107,7 +116,8 @@ class TournamentView:
                     except ValueError:
                         print("")
                         print(
-                            "!!! Choix non valide, sélectionner un des chiffres de la liste !!!"
+                            "!!! Choix non valide,"
+                            " sélectionner un des chiffres de la liste !!!"
                         )
                         self.usefull.wait()
                         continue
@@ -115,7 +125,8 @@ class TournamentView:
                     if abs(choice) > len(players_not_selected) + 1:
                         print("")
                         print(
-                            "!!! Choix non valide, sélectionner un des chiffres de la liste !!!"
+                            "!!! Choix non valide,"
+                            " sélectionner un des chiffres de la liste !!!"
                         )
                         self.usefull.wait()
                         continue
@@ -125,7 +136,8 @@ class TournamentView:
                     ):
                         print("")
                         print(
-                            "!!! Choix non valide, sélectionner un des chiffres de la liste !!!"
+                            "!!! Choix non valide,"
+                            " sélectionner un des chiffres de la liste !!!"
                         )
                         self.usefull.wait()
                         continue

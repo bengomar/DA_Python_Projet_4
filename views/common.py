@@ -13,5 +13,5 @@ class Usefull:
     def wait(self):
         """Permet d'obtenir une pause du programme"""
         print("")
-        pause = input("Appuyez sur ENTREE pour continuer ...")
+        input("Appuyez sur ENTREE pour continuer ...")
         print("")
