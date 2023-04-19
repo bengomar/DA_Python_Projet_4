@@ -32,6 +32,13 @@ source env/bin/activate
     
 ```flake8 --format=html --htmldir=flake8_report```
 
+**Le dernier rapport est dans le dossier ```flake8-report```.**
+
+_Dernier rapport exporté :_
+
+![report_flake8](img/report_flake8.png)
+
+
 ### Présentation visuelle du logiciel
 
 #### Exemples de menu:
@@ -47,3 +54,5 @@ source env/bin/activate
 ![players_list](img/menu_joueur-liste_joueurs.png)
 
 ![tournaments_list](img/menu_rapports-list_tournois.png)
+
+![matchs_list](img/menu_rapport_matchs_tours.png)
