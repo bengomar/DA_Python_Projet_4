@@ -259,7 +259,7 @@ class TournamentController:
             matches = self.create_matches(pairs)
 
             # For match in matches:
-            resultat = []
+            #resultat = []
             for i, match in enumerate(matches, 1):
                 # Enter result for match
                 print("")
@@ -285,7 +285,7 @@ class TournamentController:
                                 attrs=["bold"]
                                 )
                     )
-                    resultat.append(
+                    self.resultat.append(
                         [
                             f"{player[0].surname}"
                             f" {player[0].firstname}", player[0].score
@@ -308,13 +308,22 @@ class TournamentController:
             "Remarques générales"
             " du tournoi: "
         )
-
-        # printing tournament player score summary after the last round.
-        self.tournament_score_summary(current_tournament, resultat)
+        print("")
+        print(f"***************************** "
+              f"Fin du tournoi ({current_tournament.date_end}) "
+              f"******************************")
 
         # put tournament data in database
         self.persistance.put_current_tournament_in_database(
             current_tournament, self.round_number
         )
 
-        print(f"Fin du tournoi ({current_tournament.date_end})")
+        # Result of the matches of each round of a tournament.
+        from controllers.report import ReportController
+        ReportController().get_tournament_matches_by_round(current_tournament.name)
+
+        # self.usefull.wait()
+        # # # printing tournament player score summary after the last round.
+        # self.tournament_score_summary(current_tournament, self.resultat)
+
+

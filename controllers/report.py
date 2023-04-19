@@ -58,9 +58,8 @@ class ReportController:
                     self.usefull.wait()
                     # self.menu_reports()
                 else:
-                    print("Résultat des matchs de"
-                          " chaque tour d'un tournoi")
-                    self.get_tournament_matches_by_round()
+                    self.get_tournaments_tournament()
+                    self.get_tournament_matches_by_round(self.tournament_name)
                     self.usefull.wait()
             elif choice == "5":
                 # Retour
@@ -139,15 +138,26 @@ class ReportController:
         for gamer in score_sorted_players:
             print(self.form.format(gamer[0], gamer[1], gamer[2], gamer[3]))
 
-    def get_tournament_matches_by_round(self):
+    def get_tournament_matches_by_round(self, tournament_name):
         """Liste des matchs de chaque tour d'un tournoi donné"""
+        self.tournament_name = tournament_name
         form = "{0:10}{1:10}{2:6}{3:8}{4:10}{5:10}{6:0}"
-        self.get_tournaments_tournament()
+
+        print(colored("  ***************************************************",
+                      "blue",
+                      attrs=["bold"]))
+        print(colored("  * Résultat des matchs de chaque tour d'un tournoi *",
+                      "blue",
+                      attrs=["bold"]))
+        print(colored("  ***************************************************",
+                      "blue",
+                      attrs=["bold"]))
+
         print(colored(f'Tournoi "{self.tournament_name}"',
                       "blue",
                       attrs=["bold"])
               )
-
+        print("")
         ask_tournament = self.database.tournaments.search(
             where("name") == self.tournament_name
         )
