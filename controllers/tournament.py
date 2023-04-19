@@ -39,7 +39,12 @@ class TournamentController:
             firstname = player["firstname"]
             date_of_birth = player["date_of_birth"]
 
-            self.players.append(Player(idx, ident, surname, firstname, date_of_birth))
+            self.players.append(Player(idx,
+                                       ident,
+                                       surname,
+                                       firstname,
+                                       date_of_birth)
+                                )
 
     def create_dico_player_playing(self, competitors):
         """Création du dictionnaire de joueurs/adversaires"""
@@ -259,7 +264,6 @@ class TournamentController:
             matches = self.create_matches(pairs)
 
             # For match in matches:
-            #resultat = []
             for i, match in enumerate(matches, 1):
                 # Enter result for match
                 print("")
@@ -320,10 +324,10 @@ class TournamentController:
 
         # Result of the matches of each round of a tournament.
         from controllers.report import ReportController
-        ReportController().get_tournament_matches_by_round(current_tournament.name)
-
+        ReportController().get_tournament_matches_by_round(
+            current_tournament.name
+        )
+        #
         # self.usefull.wait()
-        # # # printing tournament player score summary after the last round.
-        # self.tournament_score_summary(current_tournament, self.resultat)
-
-
+        # printing tournament player score summary after the last round.
+        self.tournament_score_summary(current_tournament, self.resultat)

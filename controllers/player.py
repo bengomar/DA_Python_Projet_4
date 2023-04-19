@@ -3,7 +3,6 @@ import time
 from termcolor import colored
 from tinydb import where
 
-from controllers.tournament import TournamentController
 from modeles import Player
 from persistance import DatabasesTinydb
 from views.common import Usefull
