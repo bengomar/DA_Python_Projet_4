@@ -15,7 +15,6 @@ class PlayerController:
         self.view = PlayerView()
         self.usefull = Usefull()
         self.player = Player
-        self.tournament_controller = TournamentController()
         self.database = DatabasesTinydb()
         self.form = "{0:9}{1:12}{2:10}{3:10}"
 

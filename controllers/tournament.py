@@ -13,13 +13,6 @@ from views.tournament import TournamentView
 
 
 class TournamentController:
-    def __init__(self):
-        self.main_view = MainView()
-        self.tournament_view = TournamentView()
-        self.player_view = PlayerView()
-        self.usefull = Usefull()
-        self.persistance = DatabasesTinydb()
-
     opponents_by_player = {}
     list_of_matchs = []
     score_list_player = []
@@ -31,14 +24,22 @@ class TournamentController:
     players = []
     resultat = []
 
-    for index, player in enumerate(DatabasesTinydb().players):
-        idx = index
-        ident = player["ident"]
-        surname = player["surname"]
-        firstname = player["firstname"]
-        date_of_birth = player["date_of_birth"]
+    def __init__(self):
+        self.main_view = MainView()
+        self.tournament_view = TournamentView()
+        self.player_view = PlayerView()
+        self.usefull = Usefull()
+        self.persistance = DatabasesTinydb()
 
-        players.append(Player(idx, ident, surname, firstname, date_of_birth))
+    def get_db_players(self):
+        for index, player in enumerate(DatabasesTinydb().players):
+            idx = index
+            ident = player["ident"]
+            surname = player["surname"]
+            firstname = player["firstname"]
+            date_of_birth = player["date_of_birth"]
+
+            self.players.append(Player(idx, ident, surname, firstname, date_of_birth))
 
     def create_dico_player_playing(self, competitors):
         """Création du dictionnaire de joueurs/adversaires"""
@@ -142,7 +143,7 @@ class TournamentController:
                                 attrs=["bold"],
                             )
                         )
-                except:
+                except ValueError:
                     print(
                         colored(
                             "!!! Entrée non valide, saisir "
@@ -180,6 +181,7 @@ class TournamentController:
             print(colored(f" {score[0]} = {score[1]}", "blue", attrs=["bold"]))
 
     def start_tournament(self):
+        self.get_db_players()
         # Display view to get inputs for the new tournament
         tournament_data = self.tournament_view.get_tournament_data()
         current_tournament = Tournament(*tournament_data)

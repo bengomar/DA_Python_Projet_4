@@ -97,7 +97,7 @@ class ReportController:
                     print(colored(text, "red", attrs=["bold"]))
                     print("")
 
-            except:
+            except ValueError:
                 text = "!!! Entrée non valide, réessayez !!!"
                 print(colored(text, "red", attrs=["bold"]))
                 print("")
