@@ -22,16 +22,11 @@ class DatabasesTinydb:
             players_json.append(player.__dict__)
 
         for ronde in current_tournament.rounds:
-            ronde_dict = ronde.__dict__
             round_matches = []
             for match in ronde.matches:
-                players = [[player[0].__dict__,
-                            player[1]] for player in match.players]
-                match.players = players
-                round_matches.append(match)
-            ronde_dict["matches"] = [
-                {"players": match.players} for match in round_matches
-            ]
+                players = [[player[0].__dict__, player[1]] for player in match.players]
+                round_matches.append({"players": players})
+            ronde_dict = {"matches": round_matches}
             round_json.append(ronde_dict)
         print("")
         self.tournaments.insert(
@@ -47,6 +42,8 @@ class DatabasesTinydb:
                 "description": current_tournament.description,
             }
         )
+
+        self.players = []
 
     def tournaments_list_formated(self):
         """Parcourir la table tournaments"""
