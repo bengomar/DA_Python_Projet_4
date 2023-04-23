@@ -322,12 +322,14 @@ class TournamentController:
             current_tournament, self.round_number
         )
 
-        # Result of the matches of each round of a tournament.
-        from controllers.report import ReportController
-        ReportController().get_tournament_matches_by_round(
-            current_tournament.name
-        )
+        # # Result of the matches of each round of a tournament.
+        # from controllers.report import ReportController
+        # ReportController().get_tournament_matches_by_round(
+        #     current_tournament.name
+        # )
         #
         # self.usefull.wait()
         # printing tournament player score summary after the last round.
-        self.tournament_score_summary(current_tournament, self.resultat)
+        # self.tournament_score_summary(current_tournament, self.resultat)
+
+        return current_tournament

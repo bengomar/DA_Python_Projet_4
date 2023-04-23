@@ -26,7 +26,10 @@ class MainController:
             choice = self.view.display_main_menu()
             if choice == "1":
                 # Lancer un tournoi
-                self.tournament_controller.start_tournament()
+                current_tournament = self.tournament_controller.start_tournament()
+                self.report_controller.get_tournament_matches_by_round(
+                    current_tournament.name
+                )
                 Usefull.wait(self)
             elif choice == "2":
                 # Menu joueurs
