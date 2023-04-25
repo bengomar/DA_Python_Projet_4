@@ -22,12 +22,7 @@ class Player:
     score = 0
 
     def __init__(
-        self,
-        idx: int,
-        ident: str,
-        surname: str,
-        firstname: str,
-        date_of_birth: str
+        self, idx: int, ident: str, surname: str, firstname: str, date_of_birth: str
     ):
         self.idx = idx
         self.ident = ident

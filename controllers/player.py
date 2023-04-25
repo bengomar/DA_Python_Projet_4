@@ -68,22 +68,15 @@ class PlayerController:
             firstname = player.get("firstname")
             date_of_birth = player.get("date_of_birth")
 
-            player_list_alpha.append(
-                [surname, firstname, ident, date_of_birth]
-            )
+            player_list_alpha.append([surname, firstname, ident, date_of_birth])
 
         for alpha in sorted(player_list_alpha):
             print(self.form.format(alpha[2], alpha[0], alpha[1], alpha[3]))
 
     def create_new_player(self):
         """Ajout d'un joueur dans la table Tinydb.players"""
-        index, ident, surname, firstname, date_of_birth =\
-            self.view.get_player_data()
-        current_player = Player(index,
-                                ident,
-                                surname,
-                                firstname,
-                                date_of_birth)
+        index, ident, surname, firstname, date_of_birth = self.view.get_player_data()
+        current_player = Player(index, ident, surname, firstname, date_of_birth)
         print(current_player)
 
         DatabasesTinydb.players.insert(
@@ -95,9 +88,11 @@ class PlayerController:
             }
         )
         print("")
-        message = f"Le joueur {current_player.firstname}" \
-                  f" {current_player.surname}" \
-                  f" {current_player.ident} a été créé."
+        message = (
+            f"Le joueur {current_player.firstname}"
+            f" {current_player.surname}"
+            f" {current_player.ident} a été créé."
+        )
         print(colored(message, "blue", attrs=["bold"]))
         print("")
 
@@ -105,12 +100,8 @@ class PlayerController:
         """Supprime un joueur de la table players"""
         ident = input("Saisir un identifiant: ")
 
-        get_info_player = self.database.players.search(
-            where("ident") == ident
-            )
-        delete_player_id = self.database.players.remove(
-            where("ident") == ident
-            )
+        get_info_player = self.database.players.search(where("ident") == ident)
+        delete_player_id = self.database.players.remove(where("ident") == ident)
         if not delete_player_id:
             print(colored(f"{ident} n'existe pas !", "red", attrs=["bold"]))
             print("")

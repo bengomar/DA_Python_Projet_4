@@ -47,8 +47,9 @@ class PlayerView:
         while True:
             date_entered = input("Date de naissance du joueur (jj-mm-aaaa): ")
             try:
-                date_of_birth = datetime.strptime(
-                    date_entered, "%d-%m-%Y").strftime("%d-%m-%Y")
+                date_of_birth = datetime.strptime(date_entered, "%d-%m-%Y").strftime(
+                    "%d-%m-%Y"
+                )
                 break
             except ValueError:
                 print("Le date est invalide ")

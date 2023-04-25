@@ -25,9 +25,9 @@ class ReportController:
             if choice == "1":
                 # Liste des joueurs par ordre alphabétique
                 if not self.database.players:
-                    print(colored('La table "players" est vide !',
-                                  'red',
-                                  attrs=['bold']))
+                    print(
+                        colored('La table "players" est vide !', "red", attrs=["bold"])
+                    )
                     self.usefull.wait()
                     # self.menu_reports()
                 else:
@@ -37,10 +37,13 @@ class ReportController:
             elif choice == "2":
                 # Liste des tournois
                 if not self.database.tournaments:
-                    print(colored("Il n'y a actuellement aucun"
-                                  " tournoi d'enregistré !!!",
-                                  'red',
-                                  attrs=['bold']))
+                    print(
+                        colored(
+                            "Il n'y a actuellement aucun" " tournoi d'enregistré !!!",
+                            "red",
+                            attrs=["bold"],
+                        )
+                    )
                     self.usefull.wait()
                 else:
                     self.database.tournaments_list_formated()
@@ -48,10 +51,13 @@ class ReportController:
             elif choice == "3":
                 #  Classement des joueurs d'un tournoi par score
                 if not self.database.tournaments:
-                    print(colored("Il n'y a actuellement aucun"
-                                  " tournoi d'enregistré !!!",
-                                  'red',
-                                  attrs=['bold']))
+                    print(
+                        colored(
+                            "Il n'y a actuellement aucun" " tournoi d'enregistré !!!",
+                            "red",
+                            attrs=["bold"],
+                        )
+                    )
                     self.usefull.wait()
                 else:
                     self.get_tournament_players()
@@ -59,10 +65,13 @@ class ReportController:
             elif choice == "4":
                 # Résultat des matchs de chaque tour d'un tournoi
                 if not self.database.tournaments:
-                    print(colored("Il n'y a actuellement aucun"
-                                  " tournoi d'enregistré !!!",
-                                  'red',
-                                  attrs=['bold']))
+                    print(
+                        colored(
+                            "Il n'y a actuellement aucun" " tournoi d'enregistré !!!",
+                            "red",
+                            attrs=["bold"],
+                        )
+                    )
                     self.usefull.wait()
                     # self.menu_reports()
                 else:
@@ -81,10 +90,7 @@ class ReportController:
         indice = 1
         tournaments_list = []
 
-        print(colored("Tournois existants",
-                      "blue",
-                      attrs=["bold"])
-              )
+        print(colored("Tournois existants", "blue", attrs=["bold"]))
         for tournament in self.database.tournaments:
             tournament_name = tournament.get("name")
             print(f"{indice}. {tournament_name}")
@@ -130,10 +136,7 @@ class ReportController:
                     player["score"],
                 ]
             )
-        score_sorted_players = sorted(players_list,
-                                      key=lambda x: x[3],
-                                      reverse=True
-                                      )
+        score_sorted_players = sorted(players_list, key=lambda x: x[3], reverse=True)
         print(
             colored(
                 f'Classement des joueurs du tournoi "'
@@ -151,20 +154,29 @@ class ReportController:
         self.tournament_name = tournament_name
         form = "{0:10}{1:10}{2:6}{3:8}{4:10}{5:10}{6:0}"
 
-        print(colored("  ***************************************************",
-                      "blue",
-                      attrs=["bold"]))
-        print(colored("  * Résultat des matchs de chaque tour d'un tournoi *",
-                      "blue",
-                      attrs=["bold"]))
-        print(colored("  ***************************************************",
-                      "blue",
-                      attrs=["bold"]))
+        print(
+            colored(
+                "  ***************************************************",
+                "blue",
+                attrs=["bold"],
+            )
+        )
+        print(
+            colored(
+                "  * Résultat des matchs de chaque tour d'un tournoi *",
+                "blue",
+                attrs=["bold"],
+            )
+        )
+        print(
+            colored(
+                "  ***************************************************",
+                "blue",
+                attrs=["bold"],
+            )
+        )
 
-        print(colored(f'Tournoi "{self.tournament_name}"',
-                      "blue",
-                      attrs=["bold"])
-              )
+        print(colored(f'Tournoi "{self.tournament_name}"', "blue", attrs=["bold"]))
         ask_tournament = self.database.tournaments.search(
             where("name") == self.tournament_name
         )

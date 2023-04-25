@@ -10,10 +10,7 @@ class DatabasesTinydb:
     tournaments = db.table("tournaments")
     query = Query()
 
-    def put_current_tournament_in_database(self,
-                                           current_tournament,
-                                           round_number
-                                           ):
+    def put_current_tournament_in_database(self, current_tournament, round_number):
         players_json = []
         round_json = []
 
@@ -25,8 +22,8 @@ class DatabasesTinydb:
             ronde_dict = ronde.__dict__
             round_matches = []
             for match in ronde.matches:
-                players = [[player[0].__dict__,
-                            player[1]] for player in match.players]
+                players = [[player[0].__dict__, player[1]] for player in match.players]
+
                 match.players = players
                 round_matches.append(match)
             ronde_dict["matches"] = [
@@ -77,48 +74,30 @@ class DatabasesTinydb:
     def check_table_players(self):
         """Parcourir la table players"""
         if not self.players:
-            print(colored('La table "players" est vide !',
-                          "red",
-                          attrs=["bold"])
-                  )
+            print(colored('La table "players" est vide !', "red", attrs=["bold"]))
         else:
-            print(colored('Table "players":',
-                          "blue",
-                          attrs=["bold"])
-                  )
+            print(colored('Table "players":', "blue", attrs=["bold"]))
             for player in self.players:
                 print(f"{player}")
 
     def check_table_tournaments(self):
         """Parcourir la table tournaments"""
         if not self.tournaments:
-            print(colored('La table "tournaments" est vide !',
-                          "red",
-                          attrs=["bold"])
-                  )
+            print(colored('La table "tournaments" est vide !', "red", attrs=["bold"]))
         else:
-            print(colored('Table "tournaments":',
-                          "blue",
-                          attrs=["bold"])
-                  )
+            print(colored('Table "tournaments":', "blue", attrs=["bold"]))
             for tournament in self.tournaments:
                 pprint(f"{tournament=}")
 
     def truncate_table_players(self):
         """Vider la table players"""
         self.players.truncate()
-        print(colored('La table "players" a été vide !',
-                      "blue",
-                      attrs=["bold"])
-              )
+        print(colored('La table "players" a été vide !', "blue", attrs=["bold"]))
 
     def truncate_table_tournaments(self):
         """Vider la table tournaments"""
         self.tournaments.truncate()
-        print(colored('La table "tournaments" a été vide !',
-                      "blue",
-                      attrs=["bold"])
-              )
+        print(colored('La table "tournaments" a été vide !', "blue", attrs=["bold"]))
 
     def add_eight_players(self):
         """Charger la table \"players\" de 8 joueurs"""
@@ -174,10 +153,7 @@ class DatabasesTinydb:
             },
         ]
 
-        print(colored('Table "players" créé:',
-                      "blue",
-                      attrs=["bold"])
-              )
+        print(colored('Table "players" créé:', "blue", attrs=["bold"]))
         for player in eight_players_list:
             self.players.insert(player)
             print(player)

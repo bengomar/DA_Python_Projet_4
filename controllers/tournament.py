@@ -39,12 +39,7 @@ class TournamentController:
             firstname = player["firstname"]
             date_of_birth = player["date_of_birth"]
 
-            self.players.append(Player(idx,
-                                       ident,
-                                       surname,
-                                       firstname,
-                                       date_of_birth)
-                                )
+            self.players.append(Player(idx, ident, surname, firstname, date_of_birth))
 
     def create_dico_player_playing(self, competitors):
         """Création du dictionnaire de joueurs/adversaires"""
@@ -93,18 +88,15 @@ class TournamentController:
             opponents = self.opponents_by_player[current_player.ident]
             for opponent in opponents:
                 if (
-                        opponent in players_to_pair
-                        and opponent in
-                        self.opponents_by_player[current_player.ident]
+                    opponent in players_to_pair
+                    and opponent in self.opponents_by_player[current_player.ident]
                 ):
                     new_opponent = opponent
                     # Create pair
                     pairs.append([current_player, new_opponent])
                     players_to_pair.remove(opponent)
-                    self.opponents_by_player[current_player.ident].remove(
-                        opponent)
-                    self.opponents_by_player[opponent.ident].remove(
-                        current_player)
+                    self.opponents_by_player[current_player.ident].remove(opponent)
+                    self.opponents_by_player[opponent.ident].remove(current_player)
                     print(f"     {current_player} -vs- {new_opponent}")
                     break
         return pairs
@@ -128,8 +120,9 @@ class TournamentController:
             player_obj = player_element[0]
             score_progress = False
             while score_progress is False:
-                player_match_score = input(f" Saisir le score du joueur"
-                                           f" {player_obj}: ")
+                player_match_score = input(
+                    f" Saisir le score du joueur" f" {player_obj}: "
+                )
                 try:
                     if (
                         (float(player_match_score) == 0)
@@ -179,34 +172,24 @@ class TournamentController:
         print("")
         print(
             "     Tournoi d'échec:",
-            colored(current_tournament.name,
-                    "blue",
-                    attrs=["bold"])
+            colored(current_tournament.name, "blue", attrs=["bold"]),
         )
         print(
-            "     Lieu:", colored(current_tournament.location,
-                                  "blue",
-                                  attrs=["bold"]
-                                  )
+            "     Lieu:", colored(current_tournament.location, "blue", attrs=["bold"])
         )
         print(
             "     Nombre de rounds:",
-            colored(current_tournament.nb_round,
-                    "blue",
-                    attrs=["bold"]
-                    )
+            colored(current_tournament.nb_round, "blue", attrs=["bold"]),
         )
         print(
             "     Date du tournoi :",
-            colored(current_tournament.date_start,
-                    "blue",
-                    attrs=["bold"]
-                    )
+            colored(current_tournament.date_start, "blue", attrs=["bold"]),
         )
         print("")
         # Display view to get players playing the tournament
-        current_tournament.players = self.tournament_view.\
-            add_players_tournament(self.players)
+        current_tournament.players = self.tournament_view.add_players_tournament(
+            self.players
+        )
 
         # Create dictionary to store who played with who
         self.opponents_by_player = self.create_dico_player_playing(
@@ -218,29 +201,28 @@ class TournamentController:
         for self.round_number in range(1, current_tournament.nb_round + 1):
             if self.round_number == 1:
                 print("                     *********************")
-                print(f"                     * Matchs du Round"
-                      f" {self.round_number} *")
+                print(
+                    f"                     * Matchs du Round" f" {self.round_number} *"
+                )
                 print("                     *********************")
                 print("")
 
                 # round_date_start = datetime.today().strftime("%d%m%Y-%H%M")
                 # print("---round_date_start---->", round_date_start)
-                pairs = self.generate_pairs_randomly(
-                    current_tournament.players)
+                pairs = self.generate_pairs_randomly(current_tournament.players)
 
             else:
                 print("                     *********************")
-                print(f"                     * Matchs du Round"
-                      f" {self.round_number} *")
+                print(
+                    f"                     * Matchs du Round" f" {self.round_number} *"
+                )
                 print("                     *********************")
                 print("")
 
                 # round_date_start = datetime.today().strftime("%d%m%Y-%H%M")
                 # print("---round_date_start---->", round_date_start)
                 players_sorted_by_score = sorted(
-                    current_tournament.players,
-                    key=lambda p: p.score,
-                    reverse=True
+                    current_tournament.players, key=lambda p: p.score, reverse=True
                 )
                 pairs = self.generate_pairs_for_round(players_sorted_by_score)
 
@@ -266,40 +248,31 @@ class TournamentController:
 
                 for player in match.players:
                     print(
-                        f"   Score de {player[0].firstname}"
-                        f" {player[0].surname}:",
-                        colored(player[0].score,
-                                "green",
-                                attrs=["bold"]
-                                )
+                        f"   Score de {player[0].firstname}" f" {player[0].surname}:",
+                        colored(player[0].score, "green", attrs=["bold"]),
                     )
                     self.resultat.append(
                         [
-                            f"{player[0].surname}"
-                            f" {player[0].firstname}", player[0].score
+                            f"{player[0].surname}" f" {player[0].firstname}",
+                            player[0].score,
                         ]
                     )
 
             # rounds list
-            current_tournament.rounds.append(Round
-                                             (matches,
-                                              str(self.round_number)
-                                              )
-                                             )
+            current_tournament.rounds.append(Round(matches, str(self.round_number)))
 
             # round_date_end = datetime.today().strftime("%d%m%Y-%H%M")
             # print("---round_date_end---->", round_date_end)
             print("")
 
         current_tournament.date_end = datetime.today().strftime("%d-%m-%Y")
-        current_tournament.description = input(
-            "Remarques générales"
-            " du tournoi: "
-        )
+        current_tournament.description = input("Remarques générales" " du tournoi: ")
         print("")
-        print(f"***************************** "
-              f"Fin du tournoi ({current_tournament.date_end}) "
-              f"******************************")
+        print(
+            f"******************* "
+            f"Fin du tournoi ({current_tournament.date_end}) "
+            f"******************* "
+        )
 
         # put tournament data in database
         self.persistance.put_current_tournament_in_database(
