@@ -169,22 +169,6 @@ class TournamentController:
 
         return self.round_list
 
-    def tournament_score_summary(self, current_tournament, resultat):
-        """Affiche le résumé des scores des joueurs d'un tournoi"""
-        print("")
-        print(
-            "Résumé des scores des joueurs du tournois",
-            colored('"' + current_tournament.name + '"',
-                    "blue",
-                    attrs=["bold"])
-            )
-        sorted_resultat = sorted(resultat,
-                                 key=lambda x: x[1],
-                                 reverse=True
-                                 )
-        for score in sorted_resultat:
-            print(colored(f" {score[0]} = {score[1]}", "blue", attrs=["bold"]))
-
     def start_tournament(self):
         self.get_db_players()
         # Display view to get inputs for the new tournament
@@ -321,15 +305,5 @@ class TournamentController:
         self.persistance.put_current_tournament_in_database(
             current_tournament, self.round_number
         )
-
-        # # Result of the matches of each round of a tournament.
-        # from controllers.report import ReportController
-        # ReportController().get_tournament_matches_by_round(
-        #     current_tournament.name
-        # )
-        #
-        # self.usefull.wait()
-        # printing tournament player score summary after the last round.
-        # self.tournament_score_summary(current_tournament, self.resultat)
 
         return current_tournament

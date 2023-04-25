@@ -36,7 +36,7 @@ source env/bin/activate
 
 _Dernier rapport exporté :_
 
-![report_flake8](img/report_flake8.png)
+![report_flake8](img/flake8_report.png)
 
 
 ### Présentation visuelle du logiciel

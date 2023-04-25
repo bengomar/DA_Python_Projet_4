@@ -1,5 +1,3 @@
-from pprint import pprint
-
 from termcolor import colored
 from tinydb import where
 
@@ -27,7 +25,9 @@ class ReportController:
             if choice == "1":
                 # Liste des joueurs par ordre alphabétique
                 if not self.database.players:
-                    print('La table "players" est vide !')
+                    print(colored('La table "players" est vide !',
+                                  'red',
+                                  attrs=['bold']))
                     self.usefull.wait()
                     # self.menu_reports()
                 else:
@@ -37,8 +37,10 @@ class ReportController:
             elif choice == "2":
                 # Liste des tournois
                 if not self.database.tournaments:
-                    print("Il n'y a actuellement aucun"
-                          " tournoi d'enregistré !!!")
+                    print(colored("Il n'y a actuellement aucun"
+                                  " tournoi d'enregistré !!!",
+                                  'red',
+                                  attrs=['bold']))
                     self.usefull.wait()
                 else:
                     self.database.tournaments_list_formated()
@@ -46,8 +48,10 @@ class ReportController:
             elif choice == "3":
                 #  Classement des joueurs d'un tournoi par score
                 if not self.database.tournaments:
-                    print("Il n'y a actuellement aucun"
-                          " tournoi d'enregistré !!!")
+                    print(colored("Il n'y a actuellement aucun"
+                                  " tournoi d'enregistré !!!",
+                                  'red',
+                                  attrs=['bold']))
                     self.usefull.wait()
                 else:
                     self.get_tournament_players()
@@ -55,8 +59,10 @@ class ReportController:
             elif choice == "4":
                 # Résultat des matchs de chaque tour d'un tournoi
                 if not self.database.tournaments:
-                    print("Il n'y a actuellement aucun"
-                          " tournoi d'enregistré !!!")
+                    print(colored("Il n'y a actuellement aucun"
+                                  " tournoi d'enregistré !!!",
+                                  'red',
+                                  attrs=['bold']))
                     self.usefull.wait()
                     # self.menu_reports()
                 else:
