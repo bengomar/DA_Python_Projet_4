@@ -39,13 +39,18 @@ class TournamentView:
         add_player_ended = False
         while add_player_ended is False:
             if not selected_players:
-                print(colored("Liste des joueurs disponibles:", "blue", attrs=["bold"]))
+                print(colored("Liste des joueurs disponibles:",
+                              "blue",
+                              attrs=["bold"])
+                      )
                 print("   Id      Nom, Prénom")
                 for self.index, player in enumerate(players_not_selected):
                     print(f"{self.index + 1}. {player}")
-                print(f"{self.index + 2}." f" Ajouter tous les joueurs disponibles")
+                print(f"{self.index + 2}."
+                      f" Ajouter tous les joueurs disponibles")
 
-                if len(selected_players) % 2 == 0 and len(selected_players) >= 8:
+                if len(selected_players) % 2 == 0 and\
+                        len(selected_players) >= 8:
                     print(f"{self.index + 3}. Fin de selection")
                 print("")
                 print("Ajoutez un joueur au tournoi:")
@@ -93,13 +98,16 @@ class TournamentView:
                 else:
                     print(
                         colored(
-                            "Liste des joueurs disponibles:", "blue", attrs=["bold"]
+                            "Liste des joueurs disponibles:",
+                            "blue",
+                            attrs=["bold"]
                         )
                     )
                     print("   Id      Nom, Prénom")
                     for self.index, player in enumerate(players_not_selected):
                         print(f"{self.index + 1}. {player}")
-                    if len(selected_players) % 2 == 0 and len(selected_players) >= 8:
+                    if len(selected_players) % 2 == 0 and\
+                            len(selected_players) >= 8:
                         print(f"{self.index + 2}. Fin de selection")
                     print("")
                     print("Ajoutez un joueur au tournoi:")

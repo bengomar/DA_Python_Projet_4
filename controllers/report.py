@@ -26,7 +26,9 @@ class ReportController:
                 # Liste des joueurs par ordre alphabétique
                 if not self.database.players:
                     print(
-                        colored('La table "players" est vide !', "red", attrs=["bold"])
+                        colored('La table "players" est vide !',
+                                "red",
+                                attrs=["bold"])
                     )
                     self.usefull.wait()
                     # self.menu_reports()
@@ -39,7 +41,8 @@ class ReportController:
                 if not self.database.tournaments:
                     print(
                         colored(
-                            "Il n'y a actuellement aucun" " tournoi d'enregistré !!!",
+                            "Il n'y a actuellement aucun "
+                            "tournoi d'enregistré !!!",
                             "red",
                             attrs=["bold"],
                         )
@@ -53,7 +56,8 @@ class ReportController:
                 if not self.database.tournaments:
                     print(
                         colored(
-                            "Il n'y a actuellement aucun" " tournoi d'enregistré !!!",
+                            "Il n'y a actuellement aucun "
+                            "tournoi d'enregistré !!!",
                             "red",
                             attrs=["bold"],
                         )
@@ -67,7 +71,8 @@ class ReportController:
                 if not self.database.tournaments:
                     print(
                         colored(
-                            "Il n'y a actuellement aucun" " tournoi d'enregistré !!!",
+                            "Il n'y a actuellement aucun "
+                            "tournoi d'enregistré !!!",
                             "red",
                             attrs=["bold"],
                         )
@@ -136,7 +141,9 @@ class ReportController:
                     player["score"],
                 ]
             )
-        score_sorted_players = sorted(players_list, key=lambda x: x[3], reverse=True)
+        score_sorted_players = sorted(players_list,
+                                      key=lambda x: x[3],
+                                      reverse=True)
         print(
             colored(
                 f'Classement des joueurs du tournoi "'
@@ -176,7 +183,10 @@ class ReportController:
             )
         )
 
-        print(colored(f'Tournoi "{self.tournament_name}"', "blue", attrs=["bold"]))
+        print(colored(f'Tournoi "{self.tournament_name}"',
+                      "blue",
+                      attrs=["bold"])
+              )
         ask_tournament = self.database.tournaments.search(
             where("name") == self.tournament_name
         )

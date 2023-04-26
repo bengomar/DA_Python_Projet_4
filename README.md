@@ -30,7 +30,7 @@ source env/bin/activate
 
 ### Générer un rapport flake8
     
-```flake8 --format=html --htmldir=flake8_report```
+```flake8 --format=html --htmldir=flake8_report --exclude env/```
 
 **Le dernier rapport est dans le dossier ```flake8-report```.**
 
