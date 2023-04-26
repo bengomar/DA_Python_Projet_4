@@ -216,3 +216,4 @@ class ReportController:
                 )
             print("-" * 60)
             print("")
+        Usefull.wait(self)

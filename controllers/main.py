@@ -28,7 +28,7 @@ class MainController:
                 # Lancer un tournoi
                 current_tournament =\
                     self.tournament_controller.start_tournament()
-                Usefull.wait(self)
+                Usefull.clear(self)
                 if current_tournament is not None:
                     self.report_controller.get_tournament_matches_by_round(
                         current_tournament.name
