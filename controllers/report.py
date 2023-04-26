@@ -181,13 +181,13 @@ class ReportController:
             where("name") == self.tournament_name
         )
 
-        matches_data = ask_tournament[0]["round_list"]
+        rounds_data = ask_tournament[0]["round_list"]
         print("")
 
-        for matches in matches_data:
-            print(colored(f"{matches['name']}", "blue", attrs=["bold"]))
+        for round in rounds_data:
+            print(colored(f"{round['name']}", "blue", attrs=["bold"]))
             print("-" * 60)
-            match_players = matches["matches"]
+            match_players = round["matches"]
             for match in match_players:
                 player_1 = match["players"][0][0]
                 player_2 = match["players"][1][0]

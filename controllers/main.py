@@ -28,10 +28,10 @@ class MainController:
                 # Lancer un tournoi
                 current_tournament = self.tournament_controller.start_tournament()
                 Usefull.wait(self)
-                self.report_controller.get_tournament_matches_by_round(
-                    current_tournament.name
-                )
-                Usefull.wait(self)
+                if current_tournament is not None:
+                    self.report_controller.get_tournament_matches_by_round(
+                        current_tournament.name
+                    )
             elif choice == "2":
                 # Menu joueurs
                 self.player_controller.display_menu_players()

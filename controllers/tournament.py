@@ -164,6 +164,12 @@ class TournamentController:
 
     def start_tournament(self):
         self.get_db_players()
+        print("")
+        if not self.players:
+            print(colored("La base de données des joueurs est vide ! ",
+                          'red', attrs=['bold'])
+                  )
+            return
         # Display view to get inputs for the new tournament
         tournament_data = self.tournament_view.get_tournament_data()
         current_tournament = Tournament(*tournament_data)

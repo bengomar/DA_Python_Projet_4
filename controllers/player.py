@@ -29,7 +29,10 @@ class PlayerController:
         elif choice == "2":
             # Supprimer un joueur
             if not self.database.players:
-                print('La table "players" est vide !')
+                print(colored('La table "players" est vide !',
+                              'red',
+                              attrs=['bold'])
+                      )
                 self.usefull.wait()
             else:
                 self.usefull.clear()
@@ -42,7 +45,10 @@ class PlayerController:
         elif choice == "3":
             # Lister les joueurs
             if not self.database.players:
-                print('La table "players" est vide !')
+                print(colored('La table "players" est vide !',
+                              'red',
+                              attrs=['bold'])
+                      )
                 self.usefull.wait()
             else:
                 self.view.print_player_list()
